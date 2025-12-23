@@ -1,160 +1,129 @@
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Check, Star, ShoppingCart } from "lucide-react";
-import { PRODUCTS } from "@/lib/products";
+// app/page.tsx
+
 import Link from "next/link";
-import Image from "next/image";
 
 export default function HomePage() {
-  const product = PRODUCTS[0]; // Get our single product
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">AudioStore</h1>
-            <Badge variant="secondary" className="text-sm">
-              Free Shipping
-            </Badge>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="py-12 lg:py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Product Image */}
-            <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
-                <Image
-                  src={
-                    product.images?.[0] ||
-                    "/placeholder.svg?height=500&width=500&query=premium headphones"
-                  }
-                  alt={product.name}
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute top-4 left-4">
-                <Badge className="bg-primary text-primary-foreground">
-                  Best Seller
-                </Badge>
-              </div>
-            </div>
+      <section className="relative flex items-center justify-center min-h-screen px-6 md:px-8 lg:px-12">
+        <div className="max-w-5xl mx-auto text-center space-y-12">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.08em] leading-[0.9] uppercase">
+            THE ELECTRONIC
+            <br />
+            MUSIC BOOK
+          </h1>
 
-            {/* Product Details */}
-            <div className="space-y-6">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                  <span className="text-sm text-muted-foreground">
-                    (4.9/5 from 2,847 reviews)
-                  </span>
-                </div>
-                <h2 className="text-3xl lg:text-4xl font-bold text-balance mb-4">
-                  {product.name}
-                </h2>
-                <p className="text-lg text-muted-foreground text-pretty">
-                  {product.description}
-                </p>
-              </div>
+          <p className="text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto">
+            From the underground to the main stage
+          </p>
 
-              {/* Features */}
-              <div className="space-y-3">
-                <h3 className="font-semibold">Key Features:</h3>
-                <ul className="space-y-2">
-                  {product.features?.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Price and CTA */}
-              <div className="space-y-4">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold">
-                    ${(product.priceInCents / 100).toFixed(2)}
-                  </span>
-                  <span className="text-lg text-muted-foreground line-through">
-                    $249.99
-                  </span>
-                  <Badge variant="destructive">20% OFF</Badge>
-                </div>
-
-                <Link href="/checkout">
-                  <Button
-                    size="lg"
-                    className="cursor-pointer w-full lg:w-auto text-lg px-8 py-6"
-                  >
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    Buy Now - Free Shipping
-                  </Button>
-                </Link>
-
-                <p className="text-sm text-muted-foreground">
-                  ✓ 30-day money-back guarantee • ✓ 2-year warranty • ✓ Free
-                  returns
-                </p>
-              </div>
-            </div>
-          </div>
+          <Link
+            href="/shop"
+            className="inline-block bg-black text-white px-16 py-5 text-sm tracking-[0.2em] uppercase hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+          >
+            Get it
+          </Link>
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="py-12 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                <ShoppingCart className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-semibold">Free Shipping</h3>
-              <p className="text-sm text-muted-foreground">
-                On all orders over $100
+      {/* Statement Section (Placeholder) */}
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="space-y-8">
+            <h2 className="text-3xl md:text-4xl font-light tracking-wide">
+              A Journey Through Electronic Music
+            </h2>
+            <div className="prose prose-lg font-light text-gray-600 max-w-none">
+              <p>
+                The Electronic Music Book is a curated exploration of the genre's most influential artists,
+                movements, and moments. From pioneering innovators to contemporary visionaries,
+                this limited edition publication celebrates the culture that redefined modern music.
               </p>
-            </div>
-            <div className="space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                <Check className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-semibold">Quality Guarantee</h3>
-              <p className="text-sm text-muted-foreground">
-                30-day money-back guarantee
-              </p>
-            </div>
-            <div className="space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto">
-                <Star className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-semibold">Top Rated</h3>
-              <p className="text-sm text-muted-foreground">
-                4.9/5 stars from customers
+              <p>
+                Each of the 1000 numbered copies represents a piece of electronic music history,
+                crafted with the same attention to detail that defines the music itself.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t py-8">
-        <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>&copy; 2024 AudioStore. All rights reserved.</p>
+      {/* Product Information Preview (Placeholder) */}
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-20">
+            What's Inside
+          </h2>
+          <div className="grid md:grid-cols-3 gap-12 md:gap-16">
+            <div className="text-center space-y-4">
+              <div className="text-6xl font-light text-gray-300">500+</div>
+              <h3 className="text-xl font-light tracking-wide">Artists</h3>
+              <p className="text-gray-600 font-light">
+                Comprehensive profiles of electronic music's most influential creators
+              </p>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="text-6xl font-light text-gray-300">320</div>
+              <h3 className="text-xl font-light tracking-wide">Pages</h3>
+              <p className="text-gray-600 font-light">
+                Premium quality printing on archival paper stock
+              </p>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="text-6xl font-light text-gray-300">1000</div>
+              <h3 className="text-xl font-light tracking-wide">Editions</h3>
+              <p className="text-gray-600 font-light">
+                Limited numbered copies for collectors worldwide
+              </p>
+            </div>
+          </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Spreads Preview Area (Placeholder) */}
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-20">
+            Sample Spreads
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
+            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
+            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
+            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
+          </div>
+          <p className="text-center text-gray-500 font-light text-sm mt-12">
+            Preview images coming soon
+          </p>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-white">
+        <div className="max-w-3xl mx-auto text-center space-y-12">
+          <h2 className="text-4xl md:text-5xl font-light tracking-wide">
+            Own Your Copy
+          </h2>
+          <p className="text-lg text-gray-600 font-light">
+            Limited to 1000 numbered editions worldwide
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Link
+              href="/artists"
+              className="inline-block border-2 border-black text-black px-10 py-4 text-sm tracking-[0.15em] uppercase hover:bg-black hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+            >
+              View Artists
+            </Link>
+            <Link
+              href="/shop"
+              className="inline-block bg-black text-white px-10 py-4 text-sm tracking-[0.15em] uppercase hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+            >
+              Get Your Copy
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

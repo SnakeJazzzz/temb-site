@@ -11,6 +11,10 @@ export async function startCheckoutSession(productId: string) {
     throw new Error(`Product with id "${productId}" not found`);
   }
 
+  if (!stripe) {
+    throw new Error("Stripe is not configured. Please add STRIPE_SECRET_KEY to your environment variables.");
+  }
+
   // Create Checkout Sessions from body params.
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
