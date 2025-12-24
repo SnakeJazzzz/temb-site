@@ -1,125 +1,126 @@
 // app/page.tsx
 
 import Link from "next/link";
+import Typography from "@/components/ui/Typography";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-midnight">
       {/* Hero Section */}
       <section className="relative flex items-center justify-center min-h-screen px-6 md:px-8 lg:px-12">
         <div className="max-w-5xl mx-auto text-center space-y-12">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.08em] leading-[0.9] uppercase">
+          <Typography variant="h1" className="text-pearl uppercase leading-[0.9]">
             THE ELECTRONIC
             <br />
             MUSIC BOOK
-          </h1>
+          </Typography>
 
-          <p className="text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto">
+          <Typography variant="body-lg" className="text-space-grey max-w-2xl mx-auto">
             From the underground to the main stage
-          </p>
+          </Typography>
 
           <Link
             href="/shop"
-            className="inline-block bg-black text-white px-16 py-5 text-sm tracking-[0.2em] uppercase hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+            className="inline-block bg-pearl text-midnight px-16 py-5 hover:bg-space-grey hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight"
           >
-            Get it
+            <Typography variant="button">Get it</Typography>
           </Link>
         </div>
       </section>
 
       {/* Statement Section (Placeholder) */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-gray-50">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-4xl mx-auto">
           <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-light tracking-wide">
+            <Typography variant="h2" className="text-pearl">
               A Journey Through Electronic Music
-            </h2>
-            <div className="prose prose-lg font-light text-gray-600 max-w-none">
-              <p>
+            </Typography>
+            <div className="space-y-6">
+              <Typography variant="body" className="text-space-grey">
                 The Electronic Music Book is a curated exploration of the genre's most influential artists,
                 movements, and moments. From pioneering innovators to contemporary visionaries,
                 this limited edition publication celebrates the culture that redefined modern music.
-              </p>
-              <p>
+              </Typography>
+              <Typography variant="body" className="text-space-grey">
                 Each of the 1000 numbered copies represents a piece of electronic music history,
                 crafted with the same attention to detail that defines the music itself.
-              </p>
+              </Typography>
             </div>
           </div>
         </div>
       </section>
 
       {/* Product Information Preview (Placeholder) */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-white">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-pearl text-midnight">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-20">
+          <Typography variant="h2" className="text-center mb-20">
             What's Inside
-          </h2>
+          </Typography>
           <div className="grid md:grid-cols-3 gap-12 md:gap-16">
             <div className="text-center space-y-4">
-              <div className="text-6xl font-light text-gray-300">500+</div>
-              <h3 className="text-xl font-light tracking-wide">Artists</h3>
-              <p className="text-gray-600 font-light">
+              <div className="text-6xl font-extralight text-space-grey">500+</div>
+              <Typography variant="h4">Artists</Typography>
+              <Typography variant="body" className="text-space-grey">
                 Comprehensive profiles of electronic music's most influential creators
-              </p>
+              </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-light text-gray-300">320</div>
-              <h3 className="text-xl font-light tracking-wide">Pages</h3>
-              <p className="text-gray-600 font-light">
+              <div className="text-6xl font-extralight text-space-grey">320</div>
+              <Typography variant="h4">Pages</Typography>
+              <Typography variant="body" className="text-space-grey">
                 Premium quality printing on archival paper stock
-              </p>
+              </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-light text-gray-300">1000</div>
-              <h3 className="text-xl font-light tracking-wide">Editions</h3>
-              <p className="text-gray-600 font-light">
+              <div className="text-6xl font-extralight text-space-grey">1000</div>
+              <Typography variant="h4">Editions</Typography>
+              <Typography variant="body" className="text-space-grey">
                 Limited numbered copies for collectors worldwide
-              </p>
+              </Typography>
             </div>
           </div>
         </div>
       </section>
 
       {/* Spreads Preview Area (Placeholder) */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-gray-50">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-20">
+          <Typography variant="h2" className="text-center mb-20 text-pearl">
             Sample Spreads
-          </h2>
+          </Typography>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
-            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
-            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
-            <div className="aspect-[4/3] bg-gray-200 border border-gray-300"></div>
+            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
+            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
+            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
+            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
           </div>
-          <p className="text-center text-gray-500 font-light text-sm mt-12">
+          <Typography variant="caption" className="text-center text-space-grey block mt-12">
             Preview images coming soon
-          </p>
+          </Typography>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-white">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-pearl text-midnight">
         <div className="max-w-3xl mx-auto text-center space-y-12">
-          <h2 className="text-4xl md:text-5xl font-light tracking-wide">
+          <Typography variant="h2">
             Own Your Copy
-          </h2>
-          <p className="text-lg text-gray-600 font-light">
+          </Typography>
+          <Typography variant="body-lg" className="text-space-grey">
             Limited to 1000 numbered editions worldwide
-          </p>
+          </Typography>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               href="/artists"
-              className="inline-block border-2 border-black text-black px-10 py-4 text-sm tracking-[0.15em] uppercase hover:bg-black hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+              className="inline-block border-2 border-midnight text-midnight px-10 py-4 hover:bg-midnight hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-midnight focus:ring-offset-4 focus:ring-offset-pearl"
             >
-              View Artists
+              <Typography variant="button">View Artists</Typography>
             </Link>
             <Link
               href="/shop"
-              className="inline-block bg-black text-white px-10 py-4 text-sm tracking-[0.15em] uppercase hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+              className="inline-block bg-midnight text-pearl px-10 py-4 hover:bg-space-grey transition-colors focus:outline-none focus:ring-2 focus:ring-midnight focus:ring-offset-4 focus:ring-offset-pearl"
             >
-              Get Your Copy
+              <Typography variant="button">Get Your Copy</Typography>
             </Link>
           </div>
         </div>
