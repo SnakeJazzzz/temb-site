@@ -1,6 +1,7 @@
 // app/page.tsx
 
 import Link from "next/link";
+import Image from "next/image";
 import Typography from "@/components/ui/Typography";
 
 export default function HomePage() {
@@ -15,7 +16,7 @@ export default function HomePage() {
             MUSIC BOOK
           </Typography>
 
-          <Typography variant="body-lg" className="text-space-grey max-w-2xl mx-auto">
+          <Typography variant="body-lg" className="text-space-grey max-w-2xl mx-auto text-xl md:text-2xl">
             From the underground to the main stage
           </Typography>
 
@@ -36,12 +37,12 @@ export default function HomePage() {
               A Journey Through Electronic Music
             </Typography>
             <div className="space-y-6">
-              <Typography variant="body" className="text-space-grey">
+              <Typography variant="body-lg" className="text-space-grey">
                 The Electronic Music Book is a curated exploration of the genre's most influential artists,
                 movements, and moments. From pioneering innovators to contemporary visionaries,
                 this limited edition publication celebrates the culture that redefined modern music.
               </Typography>
-              <Typography variant="body" className="text-space-grey">
+              <Typography variant="body-lg" className="text-space-grey">
                 Each of the 1000 numbered copies represents a piece of electronic music history,
                 crafted with the same attention to detail that defines the music itself.
               </Typography>
@@ -60,21 +61,21 @@ export default function HomePage() {
             <div className="text-center space-y-4">
               <div className="text-6xl font-extralight text-space-grey">500+</div>
               <Typography variant="h4">Artists</Typography>
-              <Typography variant="body" className="text-space-grey">
+              <Typography variant="body-lg" className="text-space-grey">
                 Comprehensive profiles of electronic music's most influential creators
               </Typography>
             </div>
             <div className="text-center space-y-4">
               <div className="text-6xl font-extralight text-space-grey">320</div>
               <Typography variant="h4">Pages</Typography>
-              <Typography variant="body" className="text-space-grey">
+              <Typography variant="body-lg" className="text-space-grey">
                 Premium quality printing on archival paper stock
               </Typography>
             </div>
             <div className="text-center space-y-4">
               <div className="text-6xl font-extralight text-space-grey">1000</div>
               <Typography variant="h4">Editions</Typography>
-              <Typography variant="body" className="text-space-grey">
+              <Typography variant="body-lg" className="text-space-grey">
                 Limited numbered copies for collectors worldwide
               </Typography>
             </div>
@@ -82,20 +83,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Spreads Preview Area (Placeholder) */}
+      {/* Spreads Preview Area */}
       <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-6xl mx-auto">
           <Typography variant="h2" className="text-center mb-20 text-pearl">
             Sample Spreads
           </Typography>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
-            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
-            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
-            <div className="aspect-[4/3] bg-midnight border border-space-grey/30"></div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/BlackStright.svg"
+                alt="Black Edition Front View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/WhiteStright.svg"
+                alt="White Edition Front View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/BlackSide.svg"
+                alt="Black Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/WhiteSide.svg"
+                alt="White Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
           </div>
+
           <Typography variant="caption" className="text-center text-space-grey block mt-12">
-            Preview images coming soon
+            Preview images — final spreads coming soon
           </Typography>
         </div>
       </section>

@@ -33,13 +33,13 @@ const variantConfig = {
   },
   body: {
     element: 'p' as keyof JSX.IntrinsicElements,
-    className: 'text-base leading-[1.6] tracking-normal font-light',
+    className: 'text-lg leading-relaxed tracking-wide font-light',
     responsiveClassName: '',
   },
   'body-lg': {
     element: 'p' as keyof JSX.IntrinsicElements,
-    className: 'text-lg leading-[1.6] tracking-normal font-light',
-    responsiveClassName: 'max-sm:text-base',
+    className: 'text-xl leading-relaxed tracking-wide font-light',
+    responsiveClassName: 'max-sm:text-lg',
   },
   caption: {
     element: 'span' as keyof JSX.IntrinsicElements,

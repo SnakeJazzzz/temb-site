@@ -46,7 +46,7 @@ export default function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-midnight/95 backdrop-blur-sm border-b border-space-grey/20" : "bg-transparent"
+          isScrolled ? "bg-black/95 backdrop-blur-sm border-b border-gray-800/20" : "bg-transparent"
         }`}
       >
         <div className="container mx-auto px-6 md:px-8 lg:px-12">
@@ -54,16 +54,16 @@ export default function Header() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight rounded-sm"
+              className="flex items-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4 focus:ring-offset-black rounded-sm"
               aria-label="The Electronic Music Book - Home"
             >
               <Image
                 src={getLogoForBackground('dark')}
                 alt="The Electronic Music Book"
-                width={180}
-                height={48}
+                width={280}
+                height={75}
                 priority
-                className="h-10 w-auto"
+                className="h-24 w-auto"
               />
             </Link>
 
@@ -71,29 +71,22 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-12">
               <Link
                 href="/artists"
-                className="text-pearl hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight rounded-sm"
+                className="text-white hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4 focus:ring-offset-black rounded-sm"
               >
-                <Typography variant="nav">Artists</Typography>
+                <Typography variant="nav" className="text-sm md:text-base lg:text-lg tracking-widest">Artists</Typography>
               </Link>
               <Link
                 href="/shop"
-                className="text-pearl hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight rounded-sm"
+                className="text-white hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4 focus:ring-offset-black rounded-sm"
               >
-                <Typography variant="nav">Shop</Typography>
-              </Link>
-              <Link
-                href="/shop"
-                className="bg-pearl text-midnight px-8 py-3 hover:bg-space-grey hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight"
-                aria-label="Get the book - Shop now"
-              >
-                <Typography variant="button">Get it</Typography>
+                <Typography variant="nav" className="text-sm md:text-base lg:text-lg tracking-widest">Shop</Typography>
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 -mr-2 text-pearl hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-2 focus:ring-offset-midnight rounded-sm"
+              className="md:hidden p-2 -mr-2 text-white hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black rounded-sm"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
             >
@@ -109,50 +102,28 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-midnight transition-transform duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-black transition-transform duration-300 md:hidden ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isMenuOpen}
       >
-        <div className="flex flex-col h-full pt-24 pb-8 px-6">
-          {/* Mobile Logo */}
-          <div className="mb-12">
-            <Image
-              src={getLogoForBackground('dark')}
-              alt="The Electronic Music Book"
-              width={200}
-              height={54}
-              className="h-12 w-auto"
-            />
-          </div>
-
+        <div className="flex flex-col h-full pt-32 pb-8 px-6">
           <nav className="flex flex-col space-y-8" role="navigation" aria-label="Mobile navigation">
             <Link
               href="/artists"
               onClick={() => setIsMenuOpen(false)}
-              className="text-pearl hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight rounded-sm"
+              className="text-white hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4 focus:ring-offset-black rounded-sm"
             >
               <Typography variant="h3">Artists</Typography>
             </Link>
             <Link
               href="/shop"
               onClick={() => setIsMenuOpen(false)}
-              className="text-pearl hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight rounded-sm"
+              className="text-white hover:opacity-70 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4 focus:ring-offset-black rounded-sm"
             >
               <Typography variant="h3">Shop</Typography>
             </Link>
           </nav>
-
-          <div className="mt-auto">
-            <Link
-              href="/shop"
-              onClick={() => setIsMenuOpen(false)}
-              className="block w-full bg-pearl text-midnight text-center py-4 hover:bg-space-grey hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight"
-              aria-label="Get the book - Shop now"
-            >
-              <Typography variant="button">Get it</Typography>
-            </Link>
-          </div>
         </div>
       </div>
 

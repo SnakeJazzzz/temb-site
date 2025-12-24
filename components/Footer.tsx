@@ -20,9 +20,9 @@ export default function Footer() {
                 <Image
                   src={getLogoForBackground('dark')}
                   alt="The Electronic Music Book"
-                  width={180}
+                  width={280}
                   height={48}
-                  className="h-10 w-auto"
+                  className="h-24 w-auto"
                 />
               </Link>
               <Typography variant="caption" className="text-space-grey leading-relaxed block">
@@ -55,7 +55,7 @@ export default function Footer() {
             <div className="space-y-4">
               <Typography variant="caption" className="text-space-grey uppercase">Edition</Typography>
               <div className="space-y-1">
-                <Typography variant="caption" className="text-pearl/80 block">Limited to 500 copies</Typography>
+                <Typography variant="caption" className="text-pearl/80 block">Limited to 1000 copies</Typography>
                 <Typography variant="caption" className="text-pearl/80 block">Worldwide shipping</Typography>
               </div>
             </div>
