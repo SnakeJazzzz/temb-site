@@ -81,7 +81,7 @@ export const editions: Edition[] = [
   {
     id: 'temb-black-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — Black Cover',
-    description: 'Numbered 1–1000. From the underground to the main stage. Limited edition with black cover.',
+    description: 'Numbered 1–10,000. From the underground to the main stage.',
     price: 69900, // $699.00 USD
     currency: 'USD',
     stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
@@ -89,11 +89,11 @@ export const editions: Edition[] = [
     image: getBookCover('black', 'straight'), // /BookFotos/BlackStright.svg
     coverType: 'black',
     features: [
-      'Numbered edition (1–1000)',
-      '503 artists featured',
+      'Numbered edition (1–10,000)',
+      '250+ artists featured',
+      '550 pages',
       'Premium paper quality',
-      'Hardcover binding',
-      'Black collector\'s cover',
+      'Collector\'s item',
     ],
     sort_order: 1,
   },
@@ -102,7 +102,7 @@ export const editions: Edition[] = [
   {
     id: 'temb-white-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — White Cover',
-    description: 'Numbered 1–1000. From the underground to the main stage. Limited edition with white cover.',
+    description: 'Numbered 1–10,000. From the underground to the main stage.',
     price: 69900, // $699.00 USD
     currency: 'USD',
     stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
@@ -110,11 +110,11 @@ export const editions: Edition[] = [
     image: getBookCover('white', 'straight'), // /BookFotos/WhiteStright.svg
     coverType: 'white',
     features: [
-      'Numbered edition (1–1000)',
-      '503 artists featured',
+      'Numbered edition (1–10,000)',
+      '250+ artists featured',
+      '550 pages',
       'Premium paper quality',
-      'Hardcover binding',
-      'White collector\'s cover',
+      'Collector\'s item',
     ],
     sort_order: 2,
   },

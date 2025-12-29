@@ -43,7 +43,7 @@ export default function HomePage() {
                 this limited edition publication celebrates the culture that redefined modern music.
               </Typography>
               <Typography variant="body-lg" className="text-space-grey">
-                Each of the 1000 numbered copies represents a piece of electronic music history,
+                Each of the 10,000 numbered copies represents a piece of electronic music history,
                 crafted with the same attention to detail that defines the music itself.
               </Typography>
             </div>
@@ -60,20 +60,20 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-12 md:gap-16">
             <div className="text-center space-y-4">
               <div className="text-6xl font-extralight text-space-grey">500+</div>
-              <Typography variant="h4">Artists</Typography>
+              <Typography variant="h4">Artists Total</Typography>
               <Typography variant="body-lg" className="text-space-grey">
-                Comprehensive profiles of electronic music's most influential creators
+                250+ in each edition — two volumes, one complete story
               </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-extralight text-space-grey">320</div>
+              <div className="text-6xl font-extralight text-space-grey">550</div>
               <Typography variant="h4">Pages</Typography>
               <Typography variant="body-lg" className="text-space-grey">
                 Premium quality printing on archival paper stock
               </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-extralight text-space-grey">1000</div>
+              <div className="text-6xl font-extralight text-space-grey">10,000</div>
               <Typography variant="h4">Editions</Typography>
               <Typography variant="body-lg" className="text-space-grey">
                 Limited numbered copies for collectors worldwide
@@ -87,28 +87,11 @@ export default function HomePage() {
       <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-6xl mx-auto">
           <Typography variant="h2" className="text-center mb-20 text-pearl">
-            Sample Spreads
+            The Book
           </Typography>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
-              <Image
-                src="/BookFotos/BlackStright.svg"
-                alt="Black Edition Front View"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 50vw"
-              />
-            </div>
-            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
-              <Image
-                src="/BookFotos/WhiteStright.svg"
-                alt="White Edition Front View"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 50vw"
-              />
-            </div>
+            
             <div className="aspect-square relative overflow-hidden bg-space-grey/10">
               <Image
                 src="/BookFotos/BlackSide.svg"
@@ -130,7 +113,7 @@ export default function HomePage() {
           </div>
 
           <Typography variant="caption" className="text-center text-space-grey block mt-12">
-            Preview images — final spreads coming soon
+            A selection of  the interior
           </Typography>
         </div>
       </section>
@@ -139,10 +122,10 @@ export default function HomePage() {
       <section className="py-32 px-6 md:px-8 lg:px-12 bg-pearl text-midnight">
         <div className="max-w-3xl mx-auto text-center space-y-12">
           <Typography variant="h2">
-            Own Your Copy
+            Claim Yours
           </Typography>
           <Typography variant="body-lg" className="text-space-grey">
-            Limited to 1000 numbered editions worldwide
+            Limited to 10,000 numbered editions
           </Typography>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
@@ -155,7 +138,7 @@ export default function HomePage() {
               href="/shop"
               className="inline-block bg-midnight text-pearl px-10 py-4 hover:bg-space-grey transition-colors focus:outline-none focus:ring-2 focus:ring-midnight focus:ring-offset-4 focus:ring-offset-pearl"
             >
-              <Typography variant="button">Get Your Copy</Typography>
+              <Typography variant="button">GET IT</Typography>
             </Link>
           </div>
         </div>

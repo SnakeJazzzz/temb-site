@@ -192,7 +192,7 @@ export default function ShopPage() {
             </Typography>
             <Typography variant="body-lg" className="text-space-grey max-w-3xl">
               Limited edition luxury publication celebrating electronic music culture.
-              Numbered 1–1000. Choose your collector's edition.
+              Numbered 1–10,000. Choose your collector's edition.
             </Typography>
           </div>
 
@@ -209,7 +209,7 @@ export default function ShopPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-3">
                 <Typography variant="caption" className="text-space-grey block">
-                  • Limited to 1000 numbered copies worldwide
+                  • Limited to 10,000 numbered copies worldwide
                 </Typography>
                 <Typography variant="caption" className="text-space-grey block">
                   • Ships within 3-5 business days of order
@@ -226,7 +226,7 @@ export default function ShopPage() {
                   • Premium hardcover binding
                 </Typography>
                 <Typography variant="caption" className="text-space-grey block">
-                  • 503 artists featured
+                  • 250+ artists featured
                 </Typography>
               </div>
             </div>

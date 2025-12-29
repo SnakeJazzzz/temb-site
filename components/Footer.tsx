@@ -55,7 +55,7 @@ export default function Footer() {
             <div className="space-y-4">
               <Typography variant="caption" className="text-space-grey uppercase">Edition</Typography>
               <div className="space-y-1">
-                <Typography variant="caption" className="text-pearl/80 block">Limited to 1000 copies</Typography>
+                <Typography variant="caption" className="text-pearl/80 block">Limited to 10,000 copies</Typography>
                 <Typography variant="caption" className="text-pearl/80 block">Worldwide shipping</Typography>
               </div>
             </div>
