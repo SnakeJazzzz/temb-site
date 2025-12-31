@@ -103,6 +103,25 @@ export default function HomePage() {
             </div>
             <div className="aspect-square relative overflow-hidden bg-space-grey/10">
               <Image
+                src="/BookFotos/InsideBook1.svg"
+                alt="White Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/InsideBook2.svg"
+                alt="Black Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
                 src="/BookFotos/WhiteSide.svg"
                 alt="White Edition Side View"
                 fill
@@ -110,6 +129,28 @@ export default function HomePage() {
                 sizes="(max-width: 640px) 100vw, 50vw"
               />
             </div>
+
+
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/InsideBook3.svg"
+                alt="Black Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+            <div className="aspect-square relative overflow-hidden bg-space-grey/10">
+              <Image
+                src="/BookFotos/InsideBook4.svg"
+                alt="White Edition Side View"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+              />
+            </div>
+
+
           </div>
 
           <Typography variant="caption" className="text-center text-space-grey block mt-12">

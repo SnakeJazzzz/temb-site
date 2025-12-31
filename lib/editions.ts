@@ -86,7 +86,7 @@ export const editions: Edition[] = [
     currency: 'USD',
     stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
     status: 'active',
-    image: getBookCover('black', 'straight'), // /BookFotos/BlackStright.svg
+    image: getBookCover('black', 'side'), // /BookFotos/BlackStright.svg
     coverType: 'black',
     features: [
       'Numbered edition (1–10,000)',
@@ -107,7 +107,7 @@ export const editions: Edition[] = [
     currency: 'USD',
     stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
     status: 'active',
-    image: getBookCover('white', 'straight'), // /BookFotos/WhiteStright.svg
+    image: getBookCover('white', 'side'), // /BookFotos/WhiteStright.svg
     coverType: 'white',
     features: [
       'Numbered edition (1–10,000)',

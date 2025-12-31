@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Typography from "@/components/ui/Typography";
 import { getLogoForBackground } from "@/lib/assets";
+import { Github, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -64,10 +65,40 @@ export default function Footer() {
 
         {/* Copyright Bar */}
         <div className="py-6 border-t border-space-grey/30">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <Typography variant="meta" className="text-space-grey">
-              © {currentYear} The Electronic Music Book. All rights reserved.
-            </Typography>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Credits with social icons */}
+            <div className="flex flex-col items-center md:items-start gap-2">
+              <Typography variant="caption" className="text-space-grey">
+                © 2025 The Electronic Music Book
+              </Typography>
+              <div className="flex items-center gap-3">
+                <Typography variant="caption" className="text-space-grey/70 text-xs">
+                  Site by Michael Devlyn
+                </Typography>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://github.com/SnakeJazzzz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="text-space-grey/70 hover:text-pearl transition-colors"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/michael-andrew-devlyn-b66548352/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="text-space-grey/70 hover:text-pearl transition-colors"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Privacy/Terms Links */}
             <div className="flex items-center gap-6">
               <Link
                 href="/privacy"
