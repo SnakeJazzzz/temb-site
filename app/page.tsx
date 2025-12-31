@@ -103,7 +103,7 @@ export default function HomePage() {
             </div>
             <div className="aspect-square relative overflow-hidden bg-space-grey/10">
               <Image
-                src="/BookFotos/InsideBook1.svg"
+                src="/BookFotos/WhiteSide.svg"
                 alt="White Edition Side View"
                 fill
                 className="object-cover"
@@ -113,7 +113,7 @@ export default function HomePage() {
 
             <div className="aspect-square relative overflow-hidden bg-space-grey/10">
               <Image
-                src="/BookFotos/InsideBook2.svg"
+                src="/BookFotos/InsideBook1.svg"
                 alt="Black Edition Side View"
                 fill
                 className="object-cover"
@@ -122,7 +122,7 @@ export default function HomePage() {
             </div>
             <div className="aspect-square relative overflow-hidden bg-space-grey/10">
               <Image
-                src="/BookFotos/WhiteSide.svg"
+                src="/BookFotos/InsideBook2.svg"
                 alt="White Edition Side View"
                 fill
                 className="object-cover"
