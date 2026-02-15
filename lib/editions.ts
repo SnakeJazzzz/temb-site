@@ -5,7 +5,7 @@
  * EDITING GUIDE FOR NON-TECHNICAL USERS:
  * - Prices are in cents (e.g., 69900 = $699.00)
  * - Status can be 'active' or 'inactive'
- * - stripe_price_id will be added after Stripe configuration
+ * - stripePriceId is loaded from environment variables (STRIPE_PRICE_BLACK_EDITION, STRIPE_PRICE_WHITE_EDITION)
  * - id should be unique and use kebab-case (lowercase with hyphens)
  * - coverType indicates the physical cover color: 'black' or 'white'
  * - features is an array of bullet points describing what's included
@@ -36,8 +36,8 @@ export interface Edition {
   /** Currency code for the price */
   currency: string;
 
-  /** Stripe Price ID - will be set when payment processing is configured */
-  stripe_price_id?: string;
+  /** Stripe Price ID from environment variables - required for checkout */
+  stripePriceId?: string;
 
   /** Current availability status */
   status: 'active' | 'inactive';
@@ -74,17 +74,17 @@ export interface Edition {
  * - To change price: Update the 'price' field (remember: prices are in cents)
  * - To add features: Add items to the 'features' array
  * - To disable an edition: Change 'status' from 'active' to 'inactive'
- * - After Stripe setup: Add the Price ID to 'stripe_price_id'
+ * - Stripe Price IDs are loaded from environment variables (STRIPE_PRICE_BLACK_EDITION, STRIPE_PRICE_WHITE_EDITION)
  */
 export const editions: Edition[] = [
   // Black Cover Edition
   {
     id: 'temb-black-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — Black Cover',
-    description: 'Numbered 1–10,000. From the underground to the main stage.',
+    description: 'Numbered 1–10,000.',
     price: 69900, // $699.00 USD
     currency: 'USD',
-    stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
+    stripePriceId: process.env.STRIPE_PRICE_BLACK_EDITION, // Loaded from environment variable
     status: 'active',
     image: getBookCover('black', 'side'), // /BookFotos/BlackStright.svg
     coverType: 'black',
@@ -102,10 +102,10 @@ export const editions: Edition[] = [
   {
     id: 'temb-white-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — White Cover',
-    description: 'Numbered 1–10,000. From the underground to the main stage.',
+    description: 'Numbered 1–10,000.',
     price: 69900, // $699.00 USD
     currency: 'USD',
-    stripe_price_id: undefined, // TODO: Add Stripe Price ID after payment setup
+    stripePriceId: process.env.STRIPE_PRICE_WHITE_EDITION, // Loaded from environment variable
     status: 'active',
     image: getBookCover('white', 'side'), // /BookFotos/WhiteStright.svg
     coverType: 'white',
@@ -125,11 +125,25 @@ export const editions: Edition[] = [
 // ============================================
 
 /**
- * Returns only editions that are currently available for purchase
+ * Returns all active editions regardless of Stripe configuration
+ * Editions are displayed based on status only
+ * Use isEditionPurchasable() to determine if checkout is available
  * @returns Array of active Edition objects
  */
 export function getActiveEditions(): Edition[] {
   return editions.filter(edition => edition.status === 'active');
+}
+
+/**
+ * Returns editions that are active but not yet purchasable (missing Stripe price ID)
+ * These editions will display with "Coming Soon" instead of "Buy Now" button
+ * @returns Array of Edition objects without Stripe configuration
+ */
+export function getComingSoonEditions(): Edition[] {
+  return editions.filter(edition =>
+    edition.status === 'active' &&
+    (!edition.stripePriceId || edition.stripePriceId === '')
+  );
 }
 
 /**
@@ -154,6 +168,28 @@ export function getEditionById(id: string): Edition | undefined {
  */
 export function getEditionByCoverType(coverType: 'black' | 'white'): Edition | undefined {
   return editions.find(edition => edition.coverType === coverType);
+}
+
+/**
+ * Check if an edition is purchasable (has a valid Stripe price ID)
+ * @param edition - The edition to check
+ * @returns Boolean indicating if the edition can be purchased
+ *
+ * @example
+ * const edition = getEditionById('temb-black-edition');
+ * if (isEditionPurchasable(edition)) {
+ *   // Show "Buy Now" button
+ * } else {
+ *   // Show "Coming Soon" button
+ * }
+ */
+export function isEditionPurchasable(edition: Edition): boolean {
+  return (
+    edition.status === 'active' &&
+    edition.stripePriceId !== undefined &&
+    edition.stripePriceId !== null &&
+    edition.stripePriceId !== ''
+  );
 }
 
 /**
@@ -232,17 +268,27 @@ export function isEdition(value: unknown): value is Edition {
 
 /*
 // Import in your components:
-import { getActiveEditions, getEditionByCoverType, formatEditionPrice, type Edition } from '@/lib/editions'
+import {
+  getActiveEditions,
+  getComingSoonEditions,
+  getEditionByCoverType,
+  formatEditionPrice,
+  isEditionPurchasable,
+  type Edition
+} from '@/lib/editions'
 
-// Get all active editions for display in shop:
-const activeEditions = getActiveEditions() // Returns both black and white editions
+// Get all purchasable editions (with Stripe price IDs):
+const purchasableEditions = getActiveEditions() // Only returns editions with valid stripePriceId
+
+// Get editions that are coming soon (no Stripe configuration yet):
+const comingSoonEditions = getComingSoonEditions() // Returns active editions without stripePriceId
 
 // Get a specific edition by cover type:
 const blackEdition = getEditionByCoverType('black')
 const whiteEdition = getEditionByCoverType('white')
 
-// Display in a component:
-activeEditions.map(edition => (
+// Display in a component with conditional buy button:
+editions.map(edition => (
   <div key={edition.id}>
     <img src={edition.image} alt={edition.name} />
     <h3>{edition.name}</h3>
@@ -253,6 +299,16 @@ activeEditions.map(edition => (
         <li key={i}>{feature}</li>
       ))}
     </ul>
+    {isEditionPurchasable(edition) ? (
+      <button>Buy Now</button>  // Uses edition.stripePriceId for checkout
+    ) : (
+      <button disabled>Coming Soon</button>
+    )}
   </div>
 ))
+
+// Setting up environment variables:
+// Add to your .env.local file:
+// STRIPE_PRICE_BLACK_EDITION=price_xxx
+// STRIPE_PRICE_WHITE_EDITION=price_xxx
 */

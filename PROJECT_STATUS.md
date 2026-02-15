@@ -1,32 +1,69 @@
 # Project Status
 
 **Project Name**: The Electronic Music Book (TEMB)
-**Current Version**: 0.2.0
-**Last Updated**: 2025-12-23
-**Status**: Phase 2 Complete - Production Ready
+**Current Version**: 0.3.0
+**Last Updated**: 2026-02-15
+**Status**: Phase 3B Complete - Stripe Connect Checkout Ready
 
 ---
 
 ## Executive Summary
 
-The Electronic Music Book web application has successfully completed Phase 2 Design System & Assets Foundation development. The application features a refined minimal luxury aesthetic with Midnight Black/White Pearl color system, complete Condor typography integration, optimized SVG assets, 503 artist catalog, and two premium product editions at $699 each. All acceptance criteria met with 100% QA test pass rate (9/9 tests). The application is production-ready and fully deployable.
+The Electronic Music Book web application has successfully completed Phase 3B - Stripe Connect Checkout Integration. The application now features a fully functional e-commerce checkout system with Stripe Connect destination charges, flexible testing/production modes, optimized shipping prices ($25 MX, $50 INTL), enhanced UI selection indicators, and complete post-checkout pages (success/cancel). The checkout flow gracefully degrades without Stripe credentials and supports both direct payments (testing) and Connect payments with 1.5% platform fee split (production). Build status: passing with zero errors.
 
 ---
 
-## Current Status: Phase 2 - Design System & Assets Foundation ✅
+## Current Status: Phase 3B - Stripe Connect Checkout ✅
 
 ### Completion Status
-- **Overall Progress**: Phase 2 Complete (100%)
+- **Overall Progress**: Phase 3B Complete (100%)
 - **Production Ready**: YES
 - **Build Status**: Passing (0 errors, 0 warnings)
 - **TypeScript**: Clean (0 errors in strict mode)
-- **Tests Passing**: 9/9 QA tests passed (100%)
 - **Phase 1**: Complete ✅
 - **Phase 2**: Complete ✅
+- **Phase 3B**: Complete ✅
 
 ---
 
 ## What's Working
+
+### E-Commerce & Payments ✅
+
+**Stripe Connect Integration (Phase 3B)**
+- Dual-mode payment system:
+  - Testing mode: Direct payments without connected account
+  - Production mode: Destination charges with 1.5% platform fee
+- Platform receives 1.5% application fee ($10.48 on $699 product)
+- Connected account receives 98.5% of payment
+- Graceful degradation without Stripe credentials
+- Buy button shows "Coming Soon" when not configured
+- Buy button functional with basic Stripe keys (test mode)
+
+**Checkout Flow (Phase 3B)**
+- POST /api/checkout endpoint with edition and shipping validation
+- Server-side Stripe Checkout Session creation
+- Support for Mexico and International shipping regions
+- Metadata tracking (edition, shipping, cover type)
+- Success redirect to /shop/success with order details
+- Cancel redirect to /shop/cancel with reassurance messaging
+- Session detail retrieval API for order confirmation
+
+**Shop Page Enhancements (Phase 3B)**
+- Server/client component architecture (zero hydration errors)
+- Clear shipping selection indicators (2px pearl border when selected)
+- Correct edition mapping (Black/White editions map to correct Stripe prices)
+- Updated shipping prices: Mexico $25, International $50
+- Real-time total calculation with shipping
+- Loading states during checkout ("Redirecting to checkout...")
+- Error handling with user-friendly messages
+
+**Success/Cancel Pages (Phase 3B)**
+- /shop/success - Order confirmation with Stripe session retrieval
+- Displays: edition name, cover type, order number, customer email, shipping region
+- /shop/cancel - Cancellation page with reassurance and navigation
+- Both pages maintain minimal luxury design aesthetic
+- Responsive layouts for mobile and desktop
 
 ### Design System & Brand Identity ✅
 
@@ -66,21 +103,30 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 **Product Editions (Phase 2)**
 - Two premium editions: Black Cover and White Cover
 - Both priced at $699.00 USD (69900 cents)
-- Enhanced Edition interface with image, coverType, features
+- Enhanced Edition interface with stripePriceId, image, coverType, features
 - Side-by-side shop page presentation
-- Edition helper functions (getActiveEditions, getEditionByCoverType)
+- Edition helper functions (getActiveEditions, getEditionByCoverType, isEditionPurchasable)
+- Dynamic Stripe price ID mapping from environment variables
+
+**Shipping Rates (Phase 3B)**
+- Mexico: $25.00 USD (2500 cents) - 5-10 business days
+- International: $50.00 USD (5000 cents) - 7-14 business days
+- Dynamic rate calculation based on region selection
+- Stripe shipping rate integration via environment variables
 
 ### Infrastructure & Architecture ✅
 
-**Stripe Integration (Phase 1)**
-- Conditional Stripe initialization based on environment variables
-- Graceful fallback when API keys not present
-- Type-safe Stripe operations with locked API version (2025-08-27.basil)
+**Stripe Integration (Phase 3B)**
+- Flexible configuration checks (basic vs Connect)
+- `isStripeConfigured()` - checks SECRET_KEY + PUBLISHABLE_KEY
+- `isStripeConnectConfigured()` - checks for CONNECTED_ACCOUNT_ID
+- Application fee calculation (1.5% of product price)
 - Server-side security for secret keys
 - Client-side configuration checks for UI state management
+- Environment variable validation and graceful fallbacks
 
 **Data Layer**
-- Complete edition management with two premium editions
+- Complete edition management with Stripe price ID integration
 - 503-artist catalog with robust utility functions
 - Shipping rate calculation for Mexico and International
 - Helper functions for data retrieval, formatting, and pagination
@@ -98,7 +144,7 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 - Consistent header with SVG logo and Typography component
 - Sticky header with scroll effects
 - Mobile-responsive hamburger menu
-- Minimal footer with branding
+- Minimal footer with branding and social links (GitHub, LinkedIn)
 - Midnight Black/White Pearl aesthetic consistently applied
 
 **Navigation**
@@ -112,9 +158,10 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 **Landing Page** (`/`)
 - Hero section with Condor typography (h1 variant, 64px)
 - Statement section with Typography components
-- Product information overview
-- Spreads preview section (prepared for images)
+- Product information overview with statistics (250+ artists, 550 pages, 10,000 editions)
+- Book preview spreads section with 6 interior images
 - Dual CTAs with consistent Typography styling
+- Consistent Midnight Black background throughout
 
 **Artist Catalog** (`/artists`)
 - Displays all 503 artists in responsive two-column grid
@@ -125,14 +172,30 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 
 **Shop Page** (`/shop`)
 - Two premium editions side-by-side ($699 each)
-- Black Cover and White Cover options
+- Black Cover and White Cover options with clear selection
 - SVG book cover images
 - Features list for each edition
-- Shipping region selector (Mexico/International)
-- Real-time total calculation
+- Shipping region selector with clear visual indicators
+- Real-time total calculation (product + shipping)
 - Conditional checkout button based on Stripe configuration
-- "Coming Soon" state when Stripe not configured
+- Loading and error states for checkout process
 - Typography component for all text elements
+- Server-side configuration check prevents hydration errors
+
+**Success Page** (`/shop/success`)
+- Order confirmation with "Thank You" heading
+- Displays order details from Stripe session
+- Shows: edition name, cover type, order number, shipping region, customer email
+- Shipping information (3-5 business days)
+- Links to home and artists pages
+- Graceful fallback when Stripe not configured
+
+**Cancel Page** (`/shop/cancel`)
+- "Checkout Cancelled" heading
+- Reassurance that no payment was processed
+- Clear navigation back to shop or home
+- Support contact information
+- Maintains luxury aesthetic
 
 ### Accessibility ✅
 
@@ -155,6 +218,23 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 
 ## Known Limitations
 
+### E-Commerce Limitations
+1. **Stripe Production Keys**: Requires live Stripe account setup
+   - Connected account ID for production fee split
+   - Shipping rate IDs for Mexico and International
+   - Product price IDs for Black and White editions
+
+2. **Order Management**: Not implemented
+   - No admin dashboard for order tracking
+   - No email notifications (Resend/SendGrid integration planned)
+   - No customer account system
+   - Planned for Phase 3C
+
+3. **Inventory Management**: Static
+   - Stock count not tracked in real-time
+   - No automatic inventory updates
+   - Planned for Phase 3C
+
 ### Content Gaps
 1. **Artist Data Depth**: Currently names only (503 artists)
    - No biographies, genres, or countries yet
@@ -165,50 +245,28 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 2. **Artist Detail Pages**: Not implemented
    - No individual pages per artist (`/artists/[id]`)
    - No detailed biographies or discographies
-   - Planned for Phase 3
+   - Planned for Phase 4
 
 3. **Artist Search UI**: Not implemented
    - Search functions exist in lib/artists.ts (searchArtists, getArtistsByLetter)
    - No UI component for live search
    - No filtering by first letter/alphabet navigation
-   - Planned for Phase 3
-
-4. **Book Preview Gallery**: Not implemented
-   - Spreads preview section is placeholder
-   - No actual book spread images loaded
-   - Structure prepared for future phases
-
-### E-Commerce Limitations
-1. **Stripe Checkout**: Displays "Coming Soon" without credentials
-   - Full integration requires API keys
-   - Checkout flow structure in place
-   - Functional when credentials provided
-
-2. **Order Management**: Not implemented
-   - No order confirmation emails
-   - No order tracking system
-   - Planned for Phase 3
-
-3. **Inventory Management**: Static
-   - Stock count is hardcoded (100 units)
-   - No real-time inventory updates
-   - Planned for Phase 3
+   - Planned for Phase 4
 
 ### Feature Gaps
-1. **Search & Filtering**: Not implemented
-   - Artist search function exists in code but not in UI
-   - No genre filtering
-   - No country filtering
-   - Planned for Phase 2
+1. **Webhooks**: Not implemented
+   - No Stripe webhook handlers for payment events
+   - No order status updates from Stripe
+   - Planned for Phase 3C
 
 2. **Multi-Language**: Not implemented
    - Currently English only
-   - Spanish support planned for Phase 4
+   - Spanish support planned for Phase 5
 
 3. **CMS**: Not implemented
    - All content is hardcoded
    - No admin interface for updates
-   - Planned for Phase 4
+   - Planned for Phase 5
 
 ---
 
@@ -219,14 +277,24 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 - Runtime errors: NONE
 - Critical bugs: NONE
 - Security: SECURE (Stripe keys server-only)
-- Performance: OPTIMIZED (server-side rendering)
+- Performance: OPTIMIZED (server-side rendering, SVG assets)
 - Accessibility: COMPLIANT (WCAG 2.1 AA)
 - SEO: BASIC (Next.js metadata configured)
+- Checkout flow: FUNCTIONAL (testing and production modes)
 
 ### Environment Requirements
 - **Minimum**: Node.js 20+
 - **Recommended**: pnpm 8.15.7
-- **Optional**: Stripe API keys (for payment processing)
+- **Required for Checkout**:
+  - STRIPE_SECRET_KEY
+  - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  - STRIPE_PRICE_BLACK_EDITION
+  - STRIPE_PRICE_WHITE_EDITION
+  - STRIPE_SHIPPING_RATE_MX
+  - STRIPE_SHIPPING_RATE_INTL
+- **Optional for Production**:
+  - STRIPE_CONNECTED_ACCOUNT_ID (enables 1.5% fee split)
+  - NEXT_PUBLIC_BASE_URL (for redirect URLs)
 
 ### Deployment Checklist
 - ✅ Builds without environment variables
@@ -236,55 +304,50 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 - ✅ Responsive at all breakpoints
 - ✅ Accessible to keyboard and screen readers
 - ✅ Design compliant (black/white/gray only)
-- ⚠️ Stripe keys optional (payment disabled until configured)
+- ✅ Checkout flow works in testing mode
+- ✅ Checkout flow ready for production mode with Connect
+- ⚠️ Stripe keys required for payment processing
 
 ---
 
 ## Development Roadmap
 
-### Phase 3: E-Commerce Enhancement (Next)
+### Phase 3C: Order Management & Webhooks (Next)
 **Status**: Not Started
 **Timeline**: TBD
 **Priority**: HIGH
 
 **Objectives**:
-- Complete Stripe checkout integration with live payment processing
-- Implement order confirmation email system (Resend/SendGrid)
-- Build order tracking functionality
-- Create customer account system
-- Add discount/promo code functionality
-- Implement real inventory management
-- Set up webhook handlers for payment events
+- Implement Stripe webhook handlers for payment events
+- Build order tracking and management system
+- Add email confirmation system (Resend/SendGrid)
+- Create customer account functionality
 - Add order history for customers
-- Create artist detail pages (`/artists/[id]`)
-- Implement artist search UI with real-time filtering
-- Add book preview spreads gallery
-- Enhance artist data with genres, bios, external links
+- Implement discount/promo code functionality
+- Create admin dashboard for order management
 
-**Estimated Effort**: 4-5 weeks
+**Estimated Effort**: 2-3 weeks
 
 ---
 
-### Phase 4: Advanced Features & CMS
+### Phase 4: Artist Enhancement & Search
 **Status**: Not Started
 **Timeline**: TBD
 **Priority**: MEDIUM-HIGH
 
 **Objectives**:
-- Complete Stripe checkout integration
-- Implement order confirmation email system (Resend/SendGrid)
-- Build order tracking functionality
-- Create customer account system
-- Add discount/promo code functionality
-- Implement real inventory management
-- Set up webhook handlers for payment events
-- Add order history for customers
+- Create artist detail pages (`/artists/[id]`)
+- Implement artist search UI with real-time filtering
+- Add book preview spreads gallery
+- Enhance artist data with genres, bios, external links
+- Add Spotify/Discogs integration
+- Implement alphabet navigation (A-Z filtering)
 
 **Estimated Effort**: 3-4 weeks
 
 ---
 
-### Phase 4: Advanced Features
+### Phase 5: Advanced Features & CMS
 **Status**: Not Started
 **Timeline**: TBD
 **Priority**: MEDIUM
@@ -311,17 +374,12 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
    - Target: <150KB initial JS bundle
    - Actions: Code splitting, tree shaking review
 
-2. **Image Optimization**
-   - Current: No images yet
-   - Target: Next.js Image component usage
-   - Actions: Implement when book previews added
-
-3. **Performance Metrics**
+2. **Performance Metrics**
    - Current: Not measured
    - Target: Lighthouse score 90+
    - Actions: Run performance audit
 
-4. **Unit Testing**
+3. **Unit Testing**
    - Current: No tests
    - Target: 80% coverage on utility functions
    - Actions: Add Jest, React Testing Library
@@ -330,22 +388,22 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 - Type safety: Already comprehensive
 - Accessibility: Already compliant
 - Code organization: Already clean
-- Documentation: Now comprehensive
+- Documentation: Comprehensive and up-to-date
 
 ---
 
 ## Dependencies & Integrations
 
 ### Current Integrations
-- **Stripe**: Payment processing (optional)
+- **Stripe**: Payment processing with Connect support
 - **Vercel**: Deployment platform (recommended)
 - **Vercel Analytics**: Basic analytics (included)
 
 ### Planned Integrations
-- Email service (Resend/SendGrid) - Phase 3
-- CMS (Sanity/Contentful) - Phase 4
-- Newsletter (Mailchimp) - Phase 4
-- Monitoring (Sentry) - Phase 4
+- Email service (Resend/SendGrid) - Phase 3C
+- CMS (Sanity/Contentful) - Phase 5
+- Newsletter (Mailchimp) - Phase 5
+- Monitoring (Sentry) - Phase 5
 
 ---
 
@@ -354,32 +412,18 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 ### Technical Risks: LOW
 - Well-established tech stack (Next.js, TypeScript, Tailwind)
 - Graceful fallback mechanisms in place
-- No critical dependencies on external services
+- Flexible Stripe integration (testing + production modes)
 - Type safety prevents common errors
 
-### Business Risks: LOW-MEDIUM
-- Stripe integration required for revenue (mitigated with fallback)
-- Content expansion needed for full product value
-- No CMS makes content updates manual (acceptable for Phase 1)
+### Business Risks: LOW
+- Stripe integration complete and functional
+- Testing mode allows development without credentials
+- Production mode ready with minimal configuration
 
 ### Timeline Risks: LOW
-- Phase 1 complete on schedule
+- Phase 3B complete on schedule
 - Clear roadmap for future phases
 - No blockers identified
-
----
-
-## Team & Resources
-
-### Current Team
-- Developer: Michael
-- AI Assistant: Claude (Anthropic)
-
-### Required Resources for Next Phase
-- Real artist data (names, bios, genres, countries)
-- Book preview images (high-quality spreads)
-- Stripe production account (if going live)
-- Email service account (for order confirmations)
 
 ---
 
@@ -404,14 +448,24 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 - ✅ WCAG AA compliance maintained
 - ✅ Production ready with 9/9 QA tests passed
 
-### Phase 3 Success Criteria (Future)
-- [ ] Stripe checkout live with payment processing
-- [ ] Orders processing successfully
+### Phase 3B Success Criteria ✅
+- ✅ Stripe Connect architecture implemented
+- ✅ Dual-mode payment system (testing + production)
+- ✅ Checkout API route functional
+- ✅ Buy button wired and working
+- ✅ Success/cancel pages implemented
+- ✅ Zero hydration errors
+- ✅ Shipping prices updated ($25/$50)
+- ✅ Selection UI enhanced
+- ✅ Edition mapping correct
+- ✅ Build passes with zero errors
+
+### Phase 3C Success Criteria (Future)
+- [ ] Webhook handlers implemented
+- [ ] Order tracking functional
 - [ ] Email confirmations sending
-- [ ] Customer accounts functional
-- [ ] Artist detail pages live
-- [ ] Artist search UI implemented
-- [ ] Book preview gallery functional
+- [ ] Customer accounts working
+- [ ] Admin dashboard operational
 
 ---
 
@@ -433,10 +487,11 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 
 ## Contact & Support
 
-**Project Owner**: Michael
-**Repository**: [Internal/Private]
-**Documentation**: See README.md, DEVELOPMENT_LOG.md, CHANGELOG.md
-**Issues**: [Track internally]
+**Project Owner**: Michael Devlyn
+**GitHub**: https://github.com/SnakeJazzzz
+**LinkedIn**: https://www.linkedin.com/in/michael-andrew-devlyn-b66548352/
+**Documentation**: See README.md, CHANGELOG.md
+**Issues**: Track via GitHub
 
 ---
 
@@ -454,12 +509,23 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
    pnpm dev
    ```
 
-3. **Review Documentation**:
-   - Start with `README.md` for overview
-   - Read `DEVELOPMENT_LOG.md` for technical details
-   - Check `PROJECT_STATUS.md` (this file) for current state
+3. **Configure Stripe (Optional)**:
+   Create `.env.local` with:
+   ```
+   STRIPE_SECRET_KEY=sk_test_...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_PRICE_BLACK_EDITION=price_...
+   STRIPE_PRICE_WHITE_EDITION=price_...
+   STRIPE_SHIPPING_RATE_MX=shr_...
+   STRIPE_SHIPPING_RATE_INTL=shr_...
+   ```
 
-4. **Make Changes**:
+4. **Review Documentation**:
+   - Start with `README.md` for overview
+   - Check `CHANGELOG.md` for version history
+   - Review `PROJECT_STATUS.md` (this file) for current state
+
+5. **Make Changes**:
    - All changes should maintain minimal luxury aesthetic
    - Run `pnpm build` before committing
    - Follow TypeScript strict mode
@@ -467,31 +533,33 @@ The Electronic Music Book web application has successfully completed Phase 2 Des
 
 ---
 
-**Last Status Update**: 2025-12-23
-**Next Review Date**: Start of Phase 3
+**Last Status Update**: 2026-02-15
+**Next Review Date**: Start of Phase 3C
 **Overall Health**: EXCELLENT ✅
 
 ---
 
-## Phase 2 Accomplishments Summary
+## Phase 3B Accomplishments Summary
 
-**Version**: 0.2.0
-**Completion Date**: 2025-12-23
-**QA Test Results**: 9/9 passed (100%)
+**Version**: 0.3.0
+**Completion Date**: 2026-02-15
+**Build Status**: Passing (0 errors, 0 warnings)
 
 **Major Achievements**:
-1. Refined color system (Midnight Black, White Pearl, Space Grey)
-2. Complete Condor typography integration (12 weights, 10 variants)
-3. SVG asset migration with centralized management
-4. 503-artist catalog migration from CSV
-5. Two premium product editions ($699 each)
-6. Comprehensive documentation (3 new MD files)
-7. Zero TypeScript errors, zero build warnings
-8. Production ready with full WCAG AA compliance
+1. Complete Stripe Connect integration with destination charges
+2. Dual-mode payment system (testing without Connect, production with Connect)
+3. 1.5% platform fee split on all transactions
+4. Checkout API route with comprehensive validation
+5. Buy Now button fully functional
+6. Success and cancel pages with order detail retrieval
+7. Server/client architecture preventing hydration errors
+8. Enhanced shipping selection UI (clear visual indicators)
+9. Updated shipping prices ($25 MX, $50 INTL)
+10. Correct edition mapping to Stripe products
 
-**Files Created**: 8 (component, scripts, documentation)
-**Files Modified**: 12 (components, pages, data, config)
-**Lines of Code**: ~3,000+
-**Documentation**: 857 lines across 3 files
+**Files Created**: 4 (EditionCard.tsx, success/page.tsx, cancel/page.tsx, checkout/route.ts, checkout/session/route.ts)
+**Files Modified**: 8 (editions.ts, stripe.ts, shop/page.tsx, shipping.ts, globals.css, page.tsx)
+**Lines of Code**: ~1,500+
+**Technical Debt Removed**: Hydration errors, environment variable confusion
 
-The design system foundation is complete, scalable, and production-ready for Phase 3 e-commerce enhancement.
+The e-commerce foundation is complete, functional, and production-ready for live transactions with Stripe Connect.

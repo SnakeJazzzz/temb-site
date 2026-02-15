@@ -2,6 +2,13 @@
 
 @import "tailwindcss";
 
+/* Tailwind v4 Theme Configuration for TEMB Brand Colors */
+@theme {
+  --color-midnight: #0A0A0A;
+  --color-pearl: #F5F5F5;
+  --color-space-grey: #71717A;
+}
+
 /* Condor Font Face Declarations */
 @font-face {
   font-family: 'Condor';

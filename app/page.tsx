@@ -52,29 +52,29 @@ export default function HomePage() {
       </section>
 
       {/* Product Information Preview (Placeholder) */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-pearl text-midnight">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-6xl mx-auto">
-          <Typography variant="h2" className="text-center mb-20">
+          <Typography variant="h2" className="text-center mb-20 text-pearl">
             What's Inside
           </Typography>
           <div className="grid md:grid-cols-3 gap-12 md:gap-16">
             <div className="text-center space-y-4">
-              <div className="text-6xl font-extralight text-space-grey">500+</div>
-              <Typography variant="h4">Artists Total</Typography>
+              <div className="text-6xl font-extralight text-pearl">500+</div>
+              <Typography variant="h4" className="text-pearl">Artists Total</Typography>
               <Typography variant="body-lg" className="text-space-grey">
                 250+ in each edition — two volumes, one complete story
               </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-extralight text-space-grey">550</div>
-              <Typography variant="h4">Pages</Typography>
+              <div className="text-6xl font-extralight text-pearl">550</div>
+              <Typography variant="h4" className="text-pearl">Pages</Typography>
               <Typography variant="body-lg" className="text-space-grey">
                 Premium quality printing on archival paper stock
               </Typography>
             </div>
             <div className="text-center space-y-4">
-              <div className="text-6xl font-extralight text-space-grey">10,000</div>
-              <Typography variant="h4">Editions</Typography>
+              <div className="text-6xl font-extralight text-pearl">10,000</div>
+              <Typography variant="h4" className="text-pearl">Editions</Typography>
               <Typography variant="body-lg" className="text-space-grey">
                 Limited numbered copies for collectors worldwide
               </Typography>
@@ -160,9 +160,9 @@ export default function HomePage() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-32 px-6 md:px-8 lg:px-12 bg-pearl text-midnight">
+      <section className="py-32 px-6 md:px-8 lg:px-12 bg-midnight border-t border-space-grey/20">
         <div className="max-w-3xl mx-auto text-center space-y-12">
-          <Typography variant="h2">
+          <Typography variant="h2" className="text-pearl">
             Claim Yours
           </Typography>
           <Typography variant="body-lg" className="text-space-grey">
@@ -171,13 +171,13 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               href="/artists"
-              className="inline-block border-2 border-midnight text-midnight px-10 py-4 hover:bg-midnight hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-midnight focus:ring-offset-4 focus:ring-offset-pearl"
+              className="inline-block border-2 border-pearl text-pearl px-10 py-4 hover:bg-pearl hover:text-midnight transition-colors focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight"
             >
               <Typography variant="button">View Artists</Typography>
             </Link>
             <Link
               href="/shop"
-              className="inline-block bg-midnight text-pearl px-10 py-4 hover:bg-space-grey transition-colors focus:outline-none focus:ring-2 focus:ring-midnight focus:ring-offset-4 focus:ring-offset-pearl"
+              className="inline-block bg-pearl text-midnight px-10 py-4 hover:bg-space-grey hover:text-pearl transition-colors focus:outline-none focus:ring-2 focus:ring-pearl focus:ring-offset-4 focus:ring-offset-midnight"
             >
               <Typography variant="button">GET IT</Typography>
             </Link>

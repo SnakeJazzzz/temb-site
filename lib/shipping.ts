@@ -91,7 +91,7 @@ export const shippingRates: ShippingRate[] = [
   {
     region: "MX",
     name: "Mexico - Standard Shipping",
-    price: 500, // $5.00 USD
+    price: 2500, // $25.00 USD
     currency: "USD",
     stripe_shipping_rate_id: undefined, // TODO: Add Stripe Shipping Rate ID
     estimated_days: {
@@ -105,7 +105,7 @@ export const shippingRates: ShippingRate[] = [
   {
     region: "INTL",
     name: "International - Standard Shipping",
-    price: 1500, // $15.00 USD
+    price: 5000, // $50.00 USD
     currency: "USD",
     stripe_shipping_rate_id: undefined, // TODO: Add Stripe Shipping Rate ID
     estimated_days: {
