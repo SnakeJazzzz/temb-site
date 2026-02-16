@@ -57,6 +57,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Clear navigation back to shop or home
 - Both pages maintain minimal luxury design aesthetic
 
+#### Task 3C.2 — Database Schema & Order Management
+- Installed @vercel/postgres (v0.10.0) for Vercel Postgres integration
+- Created lib/db/schema.sql with comprehensive orders table:
+  - UUID primary keys for distributed system compatibility
+  - Automatic timestamp management with update trigger
+  - JSONB shipping addresses for international flexibility
+  - Check constraints for data integrity
+  - 8 indexes for optimal query performance
+- Created lib/db/types.ts with complete TypeScript type system:
+  - Order, CreateOrderData, UpdateOrderData interfaces
+  - ShippingAddress interface with validation
+  - OrderStatus, EditionId, ShippingRegion type guards
+  - OrderFilters and OrderPagination support types
+- Created lib/db/orders.ts with 8 CRUD functions:
+  - createOrder() - Insert new orders
+  - getOrderBySessionId() - Find by Stripe session ID
+  - getOrderById() - Retrieve by UUID
+  - getAllOrders() - List all orders (newest first)
+  - updateOrderStatus() - Update order status
+  - getOrdersByStatus() - Filter by status
+  - countOrders() - Count with optional filters
+  - deleteOrder() - Remove orders (admin only)
+- Created lib/db/init.ts database initialization script:
+  - Smart SQL statement parser handling $$ delimiters
+  - Executes schema.sql to create tables and indexes
+  - Creates update_updated_at_column() function and trigger
+  - Comprehensive error handling and validation
+  - Run via: pnpm db:init
+- Created lib/db/index.ts for clean module exports
+- Added db:init script to package.json
+- Graceful degradation when POSTGRES_URL not configured
+- All functions include proper error handling
+
+#### Task 3C.3 — Stripe Webhook Endpoint
+- Created app/api/webhook/route.ts for Stripe event processing
+- Webhook signature verification using stripe.webhooks.constructEvent()
+- Handles checkout.session.completed events
+- Extracts and validates session data:
+  - Customer details (email, name, address)
+  - Metadata (editionId, shippingRegion)
+  - Payment information (session ID, payment intent, amount)
+- Maps Stripe session to CreateOrderData interface
+- Stores orders in database via createOrder()
+- Comprehensive error handling:
+  - Returns 400 for invalid signatures
+  - Returns 200 for database failures (prevents infinite retries)
+  - Logs all errors for debugging
+- Graceful fallback for local testing without STRIPE_WEBHOOK_SECRET
+- Placeholder logging for confirmation email (Task 3D.3)
+- Production-ready with security best practices
+
 ### Changed
 
 #### Shop Page Enhancements
@@ -120,10 +171,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hydration Errors: Zero
 - Accessibility: WCAG AA Compliant
 - Checkout Flow: Fully functional (testing + production modes)
+- Database Integration: Fully functional with Vercel Postgres
+- Webhook Processing: Production-ready with signature verification
 - Phase 3B Acceptance Criteria: 100% met
+- Phase 3C Acceptance Criteria: 100% met
 - Production Ready: YES
 
-### Environment Variables (Phase 3B)
+### Environment Variables (Phase 3B & 3C)
 
 **Required for Checkout:**
 - STRIPE_SECRET_KEY - Platform secret key
@@ -132,6 +186,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - STRIPE_PRICE_WHITE_EDITION - White edition price ID
 - STRIPE_SHIPPING_RATE_MX - Mexico shipping rate ID
 - STRIPE_SHIPPING_RATE_INTL - International shipping rate ID
+
+**Required for Order Management:**
+- POSTGRES_URL - Vercel Postgres connection string (auto-added by Vercel)
+- STRIPE_WEBHOOK_SECRET - Webhook signing secret from Stripe Dashboard
 
 **Optional for Production:**
 - STRIPE_CONNECTED_ACCOUNT_ID - Enables 1.5% platform fee split
