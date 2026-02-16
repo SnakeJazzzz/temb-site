@@ -6,7 +6,7 @@
  */
 
 import { sql } from '@vercel/postgres';
-import type { Order, CreateOrderData, OrderStatus, ShippingAddress } from '@/types/order';
+import type { Order, CreateOrderData, OrderStatus, ShippingAddress } from './types';
 
 /**
  * Check if database is configured

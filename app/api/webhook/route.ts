@@ -18,7 +18,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { getStripeClient } from '@/lib/stripe';
 import { createOrder } from '@/lib/db/orders';
-import type { CreateOrderData, ShippingAddress } from '@/types/order';
+import { sendOrderConfirmation } from '@/lib/email/send';
+import type { CreateOrderData, ShippingAddress } from '@/lib/db/types';
 
 // Ensure Node.js runtime for raw body access
 export const runtime = 'nodejs';
@@ -46,11 +47,11 @@ function mapStripeAddressToShipping(
 
 /**
  * Extract and validate metadata from Stripe session
- * Ensures required fields are present
+ * Ensures required fields are present and properly typed
  */
 function validateSessionMetadata(metadata: Stripe.Metadata): {
-  editionId: string;
-  shippingRegion: string;
+  editionId: 'temb-black-edition' | 'temb-white-edition';
+  shippingRegion: 'MX' | 'INTL';
 } {
   const editionId = metadata.editionId;
   const shippingRegion = metadata.shippingRegion;
@@ -63,7 +64,20 @@ function validateSessionMetadata(metadata: Stripe.Metadata): {
     throw new Error('Missing required metadata: shippingRegion');
   }
 
-  return { editionId, shippingRegion };
+  // Validate edition ID
+  if (editionId !== 'temb-black-edition' && editionId !== 'temb-white-edition') {
+    throw new Error(`Invalid edition ID: ${editionId}`);
+  }
+
+  // Validate shipping region
+  if (shippingRegion !== 'MX' && shippingRegion !== 'INTL') {
+    throw new Error(`Invalid shipping region: ${shippingRegion}`);
+  }
+
+  return {
+    editionId: editionId as 'temb-black-edition' | 'temb-white-edition',
+    shippingRegion: shippingRegion as 'MX' | 'INTL'
+  };
 }
 
 /**
@@ -103,7 +117,7 @@ async function handleCheckoutSessionCompleted(
     stripe_payment_intent_id:
       typeof session.payment_intent === 'string'
         ? session.payment_intent
-        : session.payment_intent?.id || undefined,
+        : session.payment_intent?.id || null,
     customer_email: session.customer_details.email,
     customer_name: session.customer_details.name,
     shipping_address: mapStripeAddressToShipping(
@@ -111,7 +125,7 @@ async function handleCheckoutSessionCompleted(
     ),
     edition_id: editionId,
     amount_total: session.amount_total,
-    currency: session.currency,
+    currency: session.currency as 'usd' | 'eur' | 'gbp',
     shipping_region: shippingRegion,
     status: 'paid', // Initial status for completed checkout
   };
@@ -127,9 +141,14 @@ async function handleCheckoutSessionCompleted(
     const order = await createOrder(orderData);
     console.log('Order created successfully:', order.id);
 
-    // Log placeholder for confirmation email
-    console.log('TODO: Send confirmation email to', order.customer_email);
-    console.log('Order ID:', order.id);
+    // Send order confirmation email
+    const emailResult = await sendOrderConfirmation(order);
+    if (emailResult.success) {
+      console.log('Confirmation email sent successfully:', emailResult.emailId);
+    } else {
+      console.warn('Failed to send confirmation email:', emailResult.error);
+      // Don't throw - email failure shouldn't prevent order creation
+    }
   } catch (error) {
     // Log error but don't throw - we still want to return 200 to Stripe
     console.error('Failed to create order in database:', error);

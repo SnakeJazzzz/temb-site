@@ -105,8 +105,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Returns 200 for database failures (prevents infinite retries)
   - Logs all errors for debugging
 - Graceful fallback for local testing without STRIPE_WEBHOOK_SECRET
-- Placeholder logging for confirmation email (Task 3D.3)
+- Integrated with email confirmation system (Task 3D.2)
 - Production-ready with security best practices
+
+#### Task 3D.2 — Order Confirmation Email System
+- Installed resend and @react-email/components packages
+- Created lib/email/templates/order-confirmation.tsx:
+  - React Email template with minimal luxury aesthetic
+  - Black background (#000000), white text (#FFFFFF)
+  - TEMB text logo (CSS-styled, no images)
+  - Displays edition name, formatted price, shipping estimates
+  - Delivery estimates based on region (MX: 2-3 weeks, INTL: 4-6 weeks)
+  - Contact information and order details
+  - Fully responsive with inline styles for email compatibility
+- Created lib/email/send.ts:
+  - sendOrderConfirmation() function with Resend API integration
+  - Edition ID mapping (temb-black-edition → "Black Edition")
+  - Price formatting (cents to dollars: 69900 → $699.00)
+  - Graceful fallback when RESEND_API_KEY missing (logs to console)
+  - Returns SendEmailResult with success/failure status
+  - Helper functions: sendTestEmail(), sendShippingConfirmation() (placeholder)
+- Integrated with webhook endpoint:
+  - Emails sent automatically after successful order creation
+  - Non-blocking: email failures don't prevent order creation
+  - Comprehensive logging for debugging
+- Type consistency fixes:
+  - Unified database types across lib/db/types.ts
+  - Fixed import conflicts between types/order.ts and lib/db/types.ts
+  - All database operations now use consistent type definitions
+- Updated .env.example with RESEND_API_KEY documentation
+- FROM address: "onboarding@resend.dev" (with TODO for production domain)
 
 ### Changed
 
@@ -173,11 +201,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Checkout Flow: Fully functional (testing + production modes)
 - Database Integration: Fully functional with Vercel Postgres
 - Webhook Processing: Production-ready with signature verification
+- Email Notifications: Fully functional with Resend integration
 - Phase 3B Acceptance Criteria: 100% met
 - Phase 3C Acceptance Criteria: 100% met
+- Phase 3D.2 Acceptance Criteria: 100% met
 - Production Ready: YES
 
-### Environment Variables (Phase 3B & 3C)
+### Environment Variables (Phase 3B, 3C & 3D)
 
 **Required for Checkout:**
 - STRIPE_SECRET_KEY - Platform secret key
@@ -191,9 +221,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - POSTGRES_URL - Vercel Postgres connection string (auto-added by Vercel)
 - STRIPE_WEBHOOK_SECRET - Webhook signing secret from Stripe Dashboard
 
+**Required for Email Notifications:**
+- RESEND_API_KEY - Resend API key for sending confirmation emails (get from https://resend.com/api-keys)
+
 **Optional for Production:**
 - STRIPE_CONNECTED_ACCOUNT_ID - Enables 1.5% platform fee split
 - NEXT_PUBLIC_BASE_URL - Base URL for redirect URLs (defaults to localhost:3000)
+- RESEND_FROM_EMAIL - Custom sender email (requires verified domain, defaults to "onboarding@resend.dev")
 
 ---
 
