@@ -5,6 +5,55 @@ All notable changes to The Electronic Music Book project will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Phase 3E — Admin System + Order Management (2026-02-16)
+
+### Task 3E.1 — Database Migration + Auth System
+- Installed jose package for edge-compatible JWT authentication
+- Created lib/db/migrate-manual-orders.ts migration script:
+  - Added source column (TEXT, default 'stripe', CHECK constraint for 'stripe'|'manual')
+  - Added notes column (TEXT, nullable)
+  - Added quantity column (INTEGER, default 1)
+  - Non-destructive migration (ALTER TABLE, not DROP)
+- Updated lib/db/types.ts with source, notes, quantity in Order and CreateOrderData
+- Updated lib/db/orders.ts: createManualOrder(), updated all SELECT/RETURNING queries
+- Created lib/admin-auth.ts with JWT-based session management (jose):
+  - validateCredentials(), createSession(), getSession()
+  - Two roles: 'admin' and 'subadmin'
+  - httpOnly cookie: temb-admin-session, 7-day expiry
+- Created POST /api/admin/auth (login) and POST /api/admin/auth/logout
+- Added db:migrate script to package.json
+- Updated .env.example with admin auth environment variables
+
+### Task 3E.2 — Admin API Routes
+- Created lib/admin-middleware.ts: requireAuth() and requireAdmin() helper functions
+- Created GET /api/admin/orders: list all orders (any role)
+- Created POST /api/admin/orders: create manual order with validation (any role)
+- Created PATCH /api/admin/orders/[id]: update order status (any role)
+- Created DELETE /api/admin/orders/[id]: delete order (admin only, requires X-Confirm-Delete header)
+- Role-based permissions: subadmin gets 403 on DELETE
+- Comprehensive request/response logging
+
+### Task 3E.3 — Admin Dashboard UI
+- Created full admin UI at /admin (login) and /admin/orders (dashboard)
+- Dark luxury design matching TEMB aesthetic (black bg, white text)
+- Login page with username/password form and loading states
+- Dashboard header with role badge (Admin/Subadmin) and logout button
+- Stats bar: total orders, total revenue, orders by status
+- Filters row: status dropdown, source dropdown (Stripe/Manual), text search
+- Orders table with status dropdown updates, source badges, delete button (admin only)
+- Manual order form (collapsible): customer info, shipping address, quantity, price calculator
+- Live total calculator: "Total: $1,398.00 (2 x $699.00)"
+- Delete confirmation modal with "cannot be undone" warning
+- Responsive design: full table on desktop, horizontal scroll on mobile
+- Created lib/utils/format.ts utility functions
+
+### Bug Fixes
+- Fixed GET /api/admin/orders response format: now returns {orders} object
+- Fixed manual order creation: country field uses 2-letter ISO codes
+- Fixed phone field: stored in notes since customer_phone column doesn't exist in DB
+
+---
+
 ## [0.3.0] - 2026-02-15
 
 ### Added

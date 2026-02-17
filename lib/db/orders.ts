@@ -48,7 +48,10 @@ export async function createOrder(data: CreateOrderData): Promise<Order> {
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity
       ) VALUES (
         ${data.stripe_session_id},
         ${data.stripe_payment_intent_id || null},
@@ -59,7 +62,10 @@ export async function createOrder(data: CreateOrderData): Promise<Order> {
         ${data.amount_total},
         ${data.currency},
         ${data.shipping_region},
-        ${data.status || 'paid'}
+        ${data.status || 'paid'},
+        ${data.source || 'stripe'},
+        ${data.notes || null},
+        ${data.quantity || 1}
       )
       RETURNING
         id,
@@ -74,7 +80,13 @@ export async function createOrder(data: CreateOrderData): Promise<Order> {
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity,
+        source,
+        notes,
+        quantity
     `;
 
     if (result.rows.length === 0) {
@@ -90,6 +102,33 @@ export async function createOrder(data: CreateOrderData): Promise<Order> {
     console.error('Error creating order:', error);
     throw new Error(`Failed to create order: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
+}
+
+/**
+ * Create a manual order (admin-created)
+ * @param data Order data without stripe_session_id
+ * @returns The created order object
+ * @throws Error if database is not configured or insert fails
+ */
+export async function createManualOrder(
+  data: Omit<CreateOrderData, 'stripe_session_id' | 'source'> & {
+    quantity?: number;
+    notes?: string | null;
+  }
+): Promise<Order> {
+  // Generate a unique manual order ID
+  const manualSessionId = `manual_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+  return createOrder({
+    ...data,
+    stripe_session_id: manualSessionId,
+    stripe_payment_intent_id: null,  // Manual orders don't have payment intents
+    source: 'manual',
+    status: data.status || 'paid',
+    currency: data.currency || 'usd',
+    quantity: data.quantity || 1,
+    notes: data.notes || null,
+  });
 }
 
 /**
@@ -116,7 +155,13 @@ export async function getOrderBySessionId(sessionId: string): Promise<Order | nu
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity,
+        source,
+        notes,
+        quantity
       FROM orders
       WHERE stripe_session_id = ${sessionId}
       LIMIT 1
@@ -160,7 +205,13 @@ export async function getAllOrders(): Promise<Order[]> {
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity,
+        source,
+        notes,
+        quantity
       FROM orders
       ORDER BY created_at DESC
     `;
@@ -205,7 +256,10 @@ export async function updateOrderStatus(id: string, status: OrderStatus): Promis
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity
     `;
 
     if (result.rows.length === 0) {
@@ -247,7 +301,10 @@ export async function getOrdersByStatus(status: OrderStatus): Promise<Order[]> {
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity
       FROM orders
       WHERE status = ${status}
       ORDER BY created_at DESC
@@ -287,7 +344,10 @@ export async function getOrderById(id: string): Promise<Order | null> {
         amount_total,
         currency,
         shipping_region,
-        status
+        status,
+        source,
+        notes,
+        quantity
       FROM orders
       WHERE id = ${id}
       LIMIT 1

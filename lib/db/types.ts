@@ -131,6 +131,15 @@ export interface Order {
 
   /** Current order status in fulfillment pipeline */
   status: OrderStatus;
+
+  /** Order source - 'stripe' for regular checkout, 'manual' for admin-created orders */
+  source: 'stripe' | 'manual';
+
+  /** Optional notes for manual orders or special instructions */
+  notes: string | null;
+
+  /** Order quantity - number of items ordered */
+  quantity: number;
 }
 
 /**
@@ -168,6 +177,15 @@ export interface CreateOrderData {
 
   /** Initial order status (defaults to 'paid' if not specified) */
   status?: OrderStatus;
+
+  /** Order source (defaults to 'stripe' if not specified) */
+  source?: 'stripe' | 'manual';
+
+  /** Optional notes for the order */
+  notes?: string | null;
+
+  /** Order quantity (defaults to 1 if not specified) */
+  quantity?: number;
 }
 
 /**

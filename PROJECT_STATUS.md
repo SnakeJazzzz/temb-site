@@ -2,21 +2,21 @@
 
 **Project Name**: The Electronic Music Book (TEMB)
 **Current Version**: 0.3.0
-**Last Updated**: 2026-02-15
-**Status**: Phase 3D.2 Complete - Email Notifications Integrated
+**Last Updated**: 2026-02-16
+**Status**: Phase 3E Complete - Admin System Implemented
 
 ---
 
 ## Executive Summary
 
-The Electronic Music Book web application has successfully completed Phase 3D.2 - Email Notifications. The application now features a complete e-commerce system with Vercel Postgres database integration, automated order storage via Stripe webhooks, and beautiful branded email confirmations sent automatically to customers after successful purchases. The email system uses Resend for delivery, includes a minimal luxury React Email template matching the TEMB aesthetic, and gracefully degrades when not configured (logs to console for development). Customers receive order confirmations with edition details, pricing, shipping estimates, and contact information. The system builds upon Phase 3B (Stripe Connect checkout) and Phase 3C (database integration), completing the end-to-end order processing and customer communication pipeline. Build status: passing with zero errors.
+The Electronic Music Book web application has successfully completed Phase 3E - Admin Authentication and Order Management System. The application now features a complete admin backend with JWT-based authentication (two roles: admin and subadmin), a full-featured orders dashboard at /admin/orders, and the ability to create manual orders with shipping address capture and a live price calculator. The admin system builds upon Phase 3D.2 (email notifications), Phase 3C (database integration), and Phase 3B (Stripe Connect checkout), completing the end-to-end order processing, customer communication, and internal management pipeline. The database was extended with source, notes, and quantity columns via a non-destructive migration script. Role-based permissions prevent subadmins from deleting orders. Build status: passing with zero errors.
 
 ---
 
-## Current Status: Phase 3D.2 - Email Notifications ✅
+## Current Status: Phase 3E - Admin System ✅
 
 ### Completion Status
-- **Overall Progress**: Phase 3D.2 Complete (100%)
+- **Overall Progress**: Phase 3E Complete (100%)
 - **Production Ready**: YES
 - **Build Status**: Passing (0 errors, 0 warnings)
 - **TypeScript**: Clean (0 errors in strict mode)
@@ -25,6 +25,7 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
 - **Phase 3B**: Complete ✅
 - **Phase 3C**: Complete ✅
 - **Phase 3D.2**: Complete ✅
+- **Phase 3E**: Complete ✅
 
 ---
 
@@ -124,6 +125,32 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
 - Helper functions: sendTestEmail(), sendShippingConfirmation() (placeholder)
 - FROM address: "onboarding@resend.dev" (with TODO for production domain)
 - Type-safe database integration with unified type system
+
+**Admin System (Phase 3E)**
+- JWT-based admin authentication with two roles (admin/subadmin):
+  - lib/admin-auth.ts: validateCredentials(), createSession(), getSession()
+  - httpOnly cookie: temb-admin-session, 7-day expiry
+  - ADMIN_JWT_SECRET environment variable for signing
+- Admin login page at /admin (server component with LoginForm client component)
+- Orders dashboard at /admin/orders with stats, filters, and full table
+- Database extended with three new columns via non-destructive migration:
+  - source: 'stripe' | 'manual' (CHECK constraint enforced)
+  - notes: TEXT nullable (phone number stored here as fallback)
+  - quantity: INTEGER default 1
+- Manual order creation: shipping address, customer info, quantity, price calculator
+- Live total display: e.g. "Total: $1,398.00 (2 x $699.00)"
+- Filters: status dropdown, source dropdown (Stripe/Manual), text search
+- Stats bar: total orders, total revenue, per-status counts
+- Role-based permissions: subadmin cannot delete orders (returns 403)
+- DELETE requires X-Confirm-Delete: true header + confirmation modal in UI
+- Migration script: pnpm db:migrate (runs lib/db/migrate-manual-orders.ts)
+- API routes:
+  - POST /api/admin/auth (login)
+  - POST /api/admin/auth/logout
+  - GET /api/admin/orders (list, any role)
+  - POST /api/admin/orders (create manual order, any role)
+  - PATCH /api/admin/orders/[id] (update status, any role)
+  - DELETE /api/admin/orders/[id] (admin only)
 
 ### Design System & Brand Identity ✅
 
@@ -284,12 +311,13 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
    - Shipping rate IDs for Mexico and International
    - Product price IDs for Black and White editions
 
-2. **Order Management**: Partial implementation
+2. **Order Management**: Substantially complete
    - ✅ Database integration complete
    - ✅ Automated order creation via webhooks
    - ✅ Email confirmations for customers
-   - ⚠️ No admin dashboard for order tracking (planned for Phase 3E)
-   - ⚠️ No customer account system (planned for Phase 3E)
+   - ✅ Admin dashboard for order tracking (Phase 3E)
+   - ✅ Manual order creation with shipping address capture
+   - ⚠️ No customer account system (planned for Phase 3F)
 
 3. **Inventory Management**: Static
    - Stock count not tracked in real-time
@@ -358,6 +386,12 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
   - STRIPE_WEBHOOK_SECRET (from Stripe Dashboard → Webhooks)
 - **Required for Email Notifications**:
   - RESEND_API_KEY (from https://resend.com/api-keys)
+- **Required for Admin System**:
+  - ADMIN_USERNAME (primary admin username)
+  - ADMIN_PASSWORD (primary admin password)
+  - SUBADMIN_USERNAME (subadmin username)
+  - SUBADMIN_PASSWORD (subadmin password)
+  - ADMIN_JWT_SECRET (secret for signing JWT tokens — generate with openssl rand -hex 32)
 - **Optional for Production**:
   - STRIPE_CONNECTED_ACCOUNT_ID (enables 1.5% fee split)
   - NEXT_PUBLIC_BASE_URL (for redirect URLs)
@@ -378,6 +412,10 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
 - ✅ Orders automatically saved to database
 - ✅ Email confirmation system integrated
 - ✅ Order confirmations sent automatically to customers
+- ✅ Admin dashboard operational at /admin and /admin/orders
+- ✅ Role-based admin permissions (admin/subadmin)
+- ✅ Manual order creation with price calculator
+- ✅ Database migrated with source, notes, quantity columns
 - ⚠️ Stripe keys required for payment processing
 - ⚠️ POSTGRES_URL and STRIPE_WEBHOOK_SECRET required for order storage
 - ⚠️ RESEND_API_KEY required for email notifications (optional, graceful fallback)
@@ -427,20 +465,40 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
 - Non-blocking: Email failures don't prevent order creation
 - Production-ready with comprehensive logging
 
-### Phase 3E: Admin Dashboard & Customer Accounts (Next)
+### Phase 3E: Admin Dashboard & Order Management ✅
+**Status**: Complete
+**Completed**: 2026-02-16
+**Priority**: MEDIUM
+
+**Completed Objectives**:
+- ✅ JWT-based admin authentication (admin + subadmin roles)
+- ✅ Admin login page at /admin
+- ✅ Orders dashboard at /admin/orders
+- ✅ Database migration: source, notes, quantity columns
+- ✅ Manual order creation with shipping address capture
+- ✅ Role-based permissions (subadmin cannot delete)
+- ✅ Stats bar: total orders, revenue, status counts
+- ✅ Filters: status, source, text search
+- ✅ Delete with confirmation modal
+- ✅ lib/utils/format.ts utility functions
+- ✅ lib/admin-auth.ts and lib/admin-middleware.ts
+
+---
+
+### Phase 3F: Shipping Notifications & Advanced Admin (Next)
 **Status**: Not Started
 **Timeline**: TBD
 **Priority**: MEDIUM
 
-**Objectives**:
-- Create admin dashboard for order management
-- Add customer account functionality
-- Build order history for customers
-- Implement discount/promo code functionality
-- Add inventory tracking system
-- Create shipping status updates
+**Potential Objectives**:
+- Shipping confirmation emails with tracking numbers (lib/email/send.ts placeholder ready)
+- Customer account system and order history
+- Discount/promo code functionality
+- Inventory tracking system
+- Admin audit log for order changes
+- Bulk order export (CSV)
 
-**Estimated Effort**: 3-4 weeks
+**Estimated Effort**: 2-3 weeks
 
 ---
 
@@ -623,7 +681,7 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
    pnpm dev
    ```
 
-3. **Configure Stripe (Optional)**:
+3. **Configure Environment Variables (Optional)**:
    Create `.env.local` with:
    ```
    STRIPE_SECRET_KEY=sk_test_...
@@ -632,6 +690,19 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
    STRIPE_PRICE_WHITE_EDITION=price_...
    STRIPE_SHIPPING_RATE_MX=shr_...
    STRIPE_SHIPPING_RATE_INTL=shr_...
+   POSTGRES_URL=postgres://...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   RESEND_API_KEY=re_...
+   ADMIN_USERNAME=admin
+   ADMIN_PASSWORD=your-secure-password
+   SUBADMIN_USERNAME=subadmin
+   SUBADMIN_PASSWORD=your-secure-password
+   ADMIN_JWT_SECRET=your-32-char-hex-secret
+   ```
+
+3b. **Run Database Migration** (if database is configured):
+   ```bash
+   pnpm db:migrate
    ```
 
 4. **Review Documentation**:
@@ -647,8 +718,8 @@ The Electronic Music Book web application has successfully completed Phase 3D.2 
 
 ---
 
-**Last Status Update**: 2026-02-15
-**Next Review Date**: Start of Phase 3C
+**Last Status Update**: 2026-02-16
+**Next Review Date**: Start of Phase 3F
 **Overall Health**: EXCELLENT ✅
 
 ---
