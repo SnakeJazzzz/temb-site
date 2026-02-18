@@ -4,18 +4,34 @@
  */
 
 /**
- * Format cents to USD currency string
- * @param cents - Amount in cents
- * @returns Formatted currency string (e.g., "$699.00")
+ * Format cents/centavos to currency string
+ * @param cents - Amount in centavos for MXN or cents for other currencies
+ * @param currency - Currency code (default: 'MXN')
+ * @returns Formatted currency string (e.g., "$12,999 MXN")
  */
-export function formatCurrency(cents: number): string {
-  const dollars = cents / 100;
+export function formatCurrency(cents: number, currency: string = 'MXN'): string {
+  const amount = cents / 100;
+
+  if (currency === 'MXN') {
+    // Format for Mexican pesos without decimals
+    const formatted = new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+    // Replace MXN symbol and add "MXN" suffix for clarity
+    return formatted.replace(/MXN/, '').trim() + ' MXN';
+  }
+
+  // Default formatting for other currencies
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(dollars);
+  }).format(amount);
 }
 
 /**

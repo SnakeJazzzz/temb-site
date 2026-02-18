@@ -68,10 +68,10 @@ export interface Edition {
 
 /**
  * Available editions
- * Both black and white cover variants at $699 each
+ * Black cover at $12,999 MXN, White cover coming soon
  *
  * HOW TO EDIT:
- * - To change price: Update the 'price' field (remember: prices are in cents)
+ * - To change price: Update the 'price' field (remember: prices are in centavos for MXN)
  * - To add features: Add items to the 'features' array
  * - To disable an edition: Change 'status' from 'active' to 'inactive'
  * - Stripe Price IDs are loaded from environment variables (STRIPE_PRICE_BLACK_EDITION, STRIPE_PRICE_WHITE_EDITION)
@@ -82,8 +82,8 @@ export const editions: Edition[] = [
     id: 'temb-black-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — Black Cover',
     description: 'Numbered 1–10,000.',
-    price: 69900, // $699.00 USD
-    currency: 'USD',
+    price: 1299900, // $12,999.00 MXN (in centavos)
+    currency: 'MXN',
     stripePriceId: process.env.STRIPE_PRICE_BLACK_EDITION, // Loaded from environment variable
     status: 'active',
     image: getBookCover('black', 'side'), // /BookFotos/BlackStright.svg
@@ -103,8 +103,8 @@ export const editions: Edition[] = [
     id: 'temb-white-edition',
     name: 'THE ELECTRONIC MUSIC BOOK — White Cover',
     description: 'Numbered 1–10,000.',
-    price: 69900, // $699.00 USD
-    currency: 'USD',
+    price: 0, // Coming soon - no price displayed
+    currency: 'MXN',
     stripePriceId: process.env.STRIPE_PRICE_WHITE_EDITION, // Loaded from environment variable
     status: 'active',
     image: getBookCover('white', 'side'), // /BookFotos/WhiteStright.svg
@@ -194,18 +194,31 @@ export function isEditionPurchasable(edition: Edition): boolean {
 
 /**
  * Format price for display
- * @param priceInCents - Price in cents (e.g., 69900)
- * @param currency - Currency code (default: 'USD')
- * @returns Formatted price string (e.g., '$699.00')
+ * @param priceInCents - Price in centavos for MXN or cents for other currencies
+ * @param currency - Currency code (default: 'MXN')
+ * @returns Formatted price string (e.g., '$12,999 MXN')
  *
  * @example
- * formatPrice(69900, 'USD') // Returns '$699.00'
+ * formatPrice(1299900, 'MXN') // Returns '$12,999 MXN'
  */
-export function formatPrice(priceInCents: number, currency: string = 'USD'): string {
-  return new Intl.NumberFormat('en-US', {
+export function formatPrice(priceInCents: number, currency: string = 'MXN'): string {
+  const locale = currency === 'MXN' ? 'es-MX' : 'en-US';
+  const formatter = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
-  }).format(priceInCents / 100);
+    minimumFractionDigits: currency === 'MXN' ? 0 : 2,
+    maximumFractionDigits: currency === 'MXN' ? 0 : 2,
+  });
+
+  const formatted = formatter.format(priceInCents / 100);
+
+  // Add "MXN" suffix for Mexican pesos to clarify currency
+  if (currency === 'MXN') {
+    // Replace the currency symbol if needed and add MXN
+    return formatted.replace(/MXN/, '').trim() + ' MXN';
+  }
+
+  return formatted;
 }
 
 /**

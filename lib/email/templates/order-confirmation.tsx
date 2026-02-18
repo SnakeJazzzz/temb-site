@@ -29,14 +29,19 @@ export interface OrderConfirmationEmailProps {
 }
 
 /**
- * Format cents to dollar display string
+ * Format centavos to peso display string
  */
 function formatPrice(cents: number): string {
-  const dollars = cents / 100;
-  return new Intl.NumberFormat('en-US', {
+  const pesos = cents / 100;
+  const formatted = new Intl.NumberFormat('es-MX', {
     style: 'currency',
-    currency: 'USD',
-  }).format(dollars);
+    currency: 'MXN',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(pesos);
+
+  // Add "MXN" suffix for clarity in emails
+  return formatted.replace(/MXN/, '').trim() + ' MXN';
 }
 
 /**

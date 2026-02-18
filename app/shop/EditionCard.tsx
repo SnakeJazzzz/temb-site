@@ -142,10 +142,10 @@ export default function EditionCard({ edition, isCheckoutEnabled }: EditionCardP
             <>
               <div className="flex items-baseline gap-4 mb-2">
                 <Typography variant="body" className="text-space-grey line-through">
-                  $1,000.00
+                  $20,000 MXN
                 </Typography>
                 <Typography variant="h3" className="text-pearl">
-                  $699.00
+                  $12,999 MXN
                 </Typography>
               </div>
               <Typography variant="caption" className="text-pearl/60 block uppercase tracking-wider text-xs">
@@ -213,7 +213,7 @@ export default function EditionCard({ edition, isCheckoutEnabled }: EditionCardP
             <div className="border-t border-space-grey/30 pt-6 space-y-2">
               <div className="flex justify-between">
                 <Typography variant="caption" className="text-space-grey">Subtotal</Typography>
-                <Typography variant="caption" className="text-pearl">$699.00</Typography>
+                <Typography variant="caption" className="text-pearl">$12,999 MXN</Typography>
               </div>
               <div className="flex justify-between">
                 <Typography variant="caption" className="text-space-grey">
@@ -223,13 +223,13 @@ export default function EditionCard({ edition, isCheckoutEnabled }: EditionCardP
                   {selectedShippingRate && selectedShippingRate.price === 0
                     ? 'FREE'
                     : selectedShippingRate
-                    ? `$${(selectedShippingRate.price / 100).toFixed(2)}`
-                    : '$0.00'}
+                    ? `$${(selectedShippingRate.price / 100).toFixed(2)} MXN`
+                    : '$0 MXN'}
                 </Typography>
               </div>
               <div className="flex justify-between pt-2 border-t border-space-grey/30">
                 <Typography variant="body" className="text-pearl">Total</Typography>
-                <Typography variant="h4" className="text-pearl">$699.00 {edition.currency}</Typography>
+                <Typography variant="h4" className="text-pearl">$12,999 MXN</Typography>
               </div>
             </div>
 

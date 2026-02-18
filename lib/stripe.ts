@@ -58,14 +58,15 @@ stripeClient = initializeStripe();
 
 /**
  * Calculate the application fee for a given amount
- * @param amountInCents - The total amount in cents
- * @returns The application fee in cents (rounded down to nearest cent)
+ * @param amountInCents - The total amount in cents/centavos (works for any currency)
+ * @returns The application fee in cents/centavos (rounded down)
  * @example
- * calculateApplicationFee(69900) // Returns 1048 cents ($10.48) for $699.00
+ * calculateApplicationFee(1299900) // Returns 19498 centavos (1.5% of $12,999 MXN)
+ * calculateApplicationFee(69900) // Returns 1048 cents (1.5% of $699 USD)
  */
 export function calculateApplicationFee(amountInCents: number): number {
-  // Calculate 1.5% of the amount and round down to nearest cent
-  // Using Math.floor to ensure consistent fee calculation
+  // Calculate 1.5% of the amount and round down
+  // Works for any currency - MXN centavos or USD cents
   return Math.floor(amountInCents * APPLICATION_FEE_PERCENT / 100);
 }
 

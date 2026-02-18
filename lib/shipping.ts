@@ -3,7 +3,7 @@
  * @description Shipping rates and types for THE ELECTRONIC MUSIC BOOK
  *
  * EDITING GUIDE FOR NON-TECHNICAL USERS:
- * - Prices are in cents (e.g., 500 = $5.00)
+ * - Prices are in centavos for MXN (e.g., 50000 = $500.00 MXN)
  * - Region codes: MX = Mexico, INTL = International
  * - stripe_shipping_rate_id will be added after Stripe configuration
  * - Update prices as shipping costs change
@@ -30,11 +30,11 @@ export interface ShippingRate {
   /** Display name for the shipping option */
   name: string;
 
-  /** Shipping price in cents (e.g., 500 = $5.00) */
+  /** Shipping price in centavos for MXN (e.g., 50000 = $500.00 MXN) */
   price: number;
 
   /** Currency for the shipping price */
-  currency: "USD" | "GBP" | "EUR";
+  currency: "MXN" | "USD" | "GBP" | "EUR";
 
   /** Stripe Shipping Rate ID - will be set when payment processing is configured */
   stripe_shipping_rate_id?: string;
@@ -92,7 +92,7 @@ export const shippingRates: ShippingRate[] = [
     region: "MX",
     name: "Mexico - Standard Shipping",
     price: 0, // FREE SHIPPING
-    currency: "USD",
+    currency: "MXN",
     stripe_shipping_rate_id: undefined, // TODO: Add Stripe Shipping Rate ID
     estimated_days: {
       min: 3,
@@ -106,7 +106,7 @@ export const shippingRates: ShippingRate[] = [
     region: "INTL",
     name: "International - Standard Shipping",
     price: 0, // FREE SHIPPING
-    currency: "USD",
+    currency: "MXN",
     stripe_shipping_rate_id: undefined, // TODO: Add Stripe Shipping Rate ID
     estimated_days: {
       min: 7,
@@ -124,7 +124,7 @@ export const shippingRates: ShippingRate[] = [
 export const shippingConfig: ShippingConfig = {
   default_region: "INTL",
   rates: shippingRates,
-  free_shipping_threshold: 10000, // $100.00 USD - optional free shipping
+  free_shipping_threshold: 1000000, // $10,000.00 MXN - optional free shipping
   restricted_countries: [], // Add country codes here if needed (e.g., ["KP", "IR"])
 };
 
@@ -291,6 +291,7 @@ export const REGION_DISPLAY_NAMES: Record<ShippingRegion, string> = {
  * Currency symbols for display
  */
 export const CURRENCY_SYMBOLS: Record<ShippingRate["currency"], string> = {
+  MXN: "$",
   USD: "$",
   GBP: "£",
   EUR: "€",
