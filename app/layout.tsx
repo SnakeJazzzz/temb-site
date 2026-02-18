@@ -16,21 +16,39 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TEMB - The Electronic Music Book",
-  description: "Limited edition luxury publication celebrating electronic music culture. Featuring exclusive artist contributions, premium design, and collectible editions.",
-  keywords: "electronic music, luxury book, limited edition, music publication, art book, collector's edition",
+  title: {
+    default: 'TEMB — The Electronic Music Book',
+    template: '%s | TEMB',
+  },
+  description: 'A luxury 250-page coffee table book celebrating electronic music culture. Limited edition. $699.',
+  keywords: ['electronic music', 'coffee table book', 'luxury book', 'limited edition', 'music culture', 'DJ culture', 'electronic music history'],
+  metadataBase: new URL('https://theelectronicmusicbook.com'),
   authors: [{ name: "The Electronic Music Book" }],
   openGraph: {
-    title: "TEMB - The Electronic Music Book",
-    description: "Limited edition luxury publication celebrating electronic music culture",
-    type: "website",
+    type: 'website',
+    url: 'https://theelectronicmusicbook.com',
+    title: 'TEMB — The Electronic Music Book',
+    description: 'A luxury 250-page coffee table book celebrating electronic music culture. Limited edition. $699.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'The Electronic Music Book — Limited Edition',
+      },
+    ],
     locale: "en_US",
-    siteName: "TEMB",
+    siteName: 'The Electronic Music Book',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "TEMB - The Electronic Music Book",
-    description: "Limited edition luxury publication celebrating electronic music culture",
+    card: 'summary_large_image',
+    title: 'TEMB — The Electronic Music Book',
+    description: 'A luxury 250-page coffee table book celebrating electronic music culture. Limited edition. $699.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

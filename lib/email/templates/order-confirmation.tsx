@@ -132,8 +132,8 @@ export function OrderConfirmationEmail({
           <Section style={footerSection}>
             <Text style={footerText}>
               Questions? Contact us at{' '}
-              <Link href="mailto:support@temb.com" style={link}>
-                support@temb.com
+              <Link href="mailto:orders@theelectronicmusicbook.com" style={link}>
+                orders@theelectronicmusicbook.com
               </Link>
             </Text>
 

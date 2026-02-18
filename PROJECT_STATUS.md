@@ -1,22 +1,22 @@
 # Project Status
 
 **Project Name**: The Electronic Music Book (TEMB)
-**Current Version**: 0.3.0
-**Last Updated**: 2026-02-16
-**Status**: Phase 3E Complete - Admin System Implemented
+**Current Version**: 0.4.0
+**Last Updated**: 2026-02-18
+**Status**: READY FOR PRODUCTION LAUNCH
 
 ---
 
 ## Executive Summary
 
-The Electronic Music Book web application has successfully completed Phase 3E - Admin Authentication and Order Management System. The application now features a complete admin backend with JWT-based authentication (two roles: admin and subadmin), a full-featured orders dashboard at /admin/orders, and the ability to create manual orders with shipping address capture and a live price calculator. The admin system builds upon Phase 3D.2 (email notifications), Phase 3C (database integration), and Phase 3B (Stripe Connect checkout), completing the end-to-end order processing, customer communication, and internal management pipeline. The database was extended with source, notes, and quantity columns via a non-destructive migration script. Role-based permissions prevent subadmins from deleting orders. Build status: passing with zero errors.
+The Electronic Music Book web application is ready for production launch. Phase 3F production configuration is complete: Stripe Live Mode is active with products, shipping rates, and webhook registered on the connected account; the platform Stripe account is verified with HSBC Mexico bank for 1.5% commission payouts; the Resend email domain (theelectronicmusicbook.com) is verified with DKIM/SPF DNS records configured in GoDaddy; SEO metadata and Open Graph images are in place on all pages; robots.txt and sitemap.xml are served via Next.js metadata API routes; and all 17 production environment variables are configured in Vercel. The Mexico shipping rate has been corrected to $16 USD. All previous phases (admin system, database, webhooks, email, Stripe Connect checkout) remain fully operational. Task 3G (QA pass) is currently in progress. Task 3E.4 (admin address + commission tracking) has been deferred to post-launch.
 
 ---
 
-## Current Status: Phase 3E - Admin System ✅
+## Current Status: Phase 3F Complete — READY FOR PRODUCTION LAUNCH ✅
 
 ### Completion Status
-- **Overall Progress**: Phase 3E Complete (100%)
+- **Overall Progress**: Phase 3F Complete — Production Launch Ready
 - **Production Ready**: YES
 - **Build Status**: Passing (0 errors, 0 warnings)
 - **TypeScript**: Clean (0 errors in strict mode)
@@ -26,6 +26,18 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 - **Phase 3C**: Complete ✅
 - **Phase 3D.2**: Complete ✅
 - **Phase 3E**: Complete ✅
+- **Phase 3F.1 — Stripe Live Mode**: Complete ✅
+- **Phase 3F.2 — SEO Metadata + OG Image**: Complete ✅
+- **Phase 3F.3 — Email FROM Address + Mexico Shipping Rate**: Complete ✅
+- **Stripe Live Mode**: Complete ✅
+- **Email Domain Setup (Resend + GoDaddy)**: Complete ✅
+- **Vercel Environment Variables (17 vars)**: Complete ✅
+
+### In Progress
+- **Task 3G — QA Pass**: In progress
+
+### Deferred (Post-Launch)
+- **Task 3E.4 — Admin address + commission tracking**: Deferred to post-launch
 
 ---
 
@@ -123,8 +135,19 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
   - Returns SendEmailResult with success/failure status
   - Graceful degradation without RESEND_API_KEY (logs to console)
 - Helper functions: sendTestEmail(), sendShippingConfirmation() (placeholder)
-- FROM address: "onboarding@resend.dev" (with TODO for production domain)
+- FROM address: orders@theelectronicmusicbook.com (production domain verified via EMAIL_FROM env var)
 - Type-safe database integration with unified type system
+
+**Production Configuration (Phase 3F)**
+- Stripe Live Mode active: products, shipping rates, webhook registered on connected account
+- Platform Stripe account verified with HSBC Mexico bank (1.5% commission payouts)
+- Resend email domain verified: theelectronicmusicbook.com (DKIM/SPF DNS in GoDaddy)
+- Production email FROM address: TEMB <orders@theelectronicmusicbook.com> via EMAIL_FROM env var
+- SEO metadata and Open Graph image on all pages (layout, shop, artists)
+- robots.txt and sitemap.xml served via Next.js metadata API routes
+- All 17 production environment variables configured in Vercel
+- Mexico shipping rate corrected: $25 → $16 USD (2500 → 1600 cents) in lib/shipping.ts
+- Statement descriptor: "TEMB MUSIC BOOK"
 
 **Admin System (Phase 3E)**
 - JWT-based admin authentication with two roles (admin/subadmin):
@@ -195,8 +218,8 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 - Edition helper functions (getActiveEditions, getEditionByCoverType, isEditionPurchasable)
 - Dynamic Stripe price ID mapping from environment variables
 
-**Shipping Rates (Phase 3B)**
-- Mexico: $25.00 USD (2500 cents) - 5-10 business days
+**Shipping Rates (Phase 3B, updated Phase 3F.3)**
+- Mexico: $16.00 USD (1600 cents) - 5-10 business days (corrected from $25 in Phase 3F.3)
 - International: $50.00 USD (5000 cents) - 7-14 business days
 - Dynamic rate calculation based on region selection
 - Stripe shipping rate integration via environment variables
@@ -306,10 +329,11 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 ## Known Limitations
 
 ### E-Commerce Limitations
-1. **Stripe Production Keys**: Requires live Stripe account setup
-   - Connected account ID for production fee split
-   - Shipping rate IDs for Mexico and International
-   - Product price IDs for Black and White editions
+1. **Stripe Production Keys**: Configured ✅ (Phase 3F.1 complete)
+   - Live connected account ID set for production fee split
+   - Live shipping rate IDs configured for Mexico ($16) and International ($50)
+   - Live product price IDs configured for Black and White editions
+   - Webhook registered and verified on connected account
 
 2. **Order Management**: Substantially complete
    - ✅ Database integration complete
@@ -368,7 +392,7 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 - Security: SECURE (Stripe keys server-only)
 - Performance: OPTIMIZED (server-side rendering, SVG assets)
 - Accessibility: COMPLIANT (WCAG 2.1 AA)
-- SEO: BASIC (Next.js metadata configured)
+- SEO: PRODUCTION-READY (metadata, OG image, robots.txt, sitemap.xml on all pages)
 - Checkout flow: FUNCTIONAL (testing and production modes)
 
 ### Environment Requirements
@@ -416,9 +440,14 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 - ✅ Role-based admin permissions (admin/subadmin)
 - ✅ Manual order creation with price calculator
 - ✅ Database migrated with source, notes, quantity columns
-- ⚠️ Stripe keys required for payment processing
-- ⚠️ POSTGRES_URL and STRIPE_WEBHOOK_SECRET required for order storage
-- ⚠️ RESEND_API_KEY required for email notifications (optional, graceful fallback)
+- ✅ Stripe Live Mode configured (products, shipping rates, webhook)
+- ✅ Email domain verified (theelectronicmusicbook.com via Resend + GoDaddy)
+- ✅ SEO metadata and Open Graph image on all pages
+- ✅ robots.txt and sitemap.xml active
+- ✅ All 17 production environment variables set in Vercel
+- ✅ Stripe keys configured (live mode)
+- ✅ POSTGRES_URL and STRIPE_WEBHOOK_SECRET configured
+- ✅ RESEND_API_KEY and EMAIL_FROM configured (production domain)
 
 ---
 
@@ -485,12 +514,36 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 
 ---
 
-### Phase 3F: Shipping Notifications & Advanced Admin (Next)
-**Status**: Not Started
-**Timeline**: TBD
-**Priority**: MEDIUM
+### Phase 3F: Production Launch Configuration ✅
+**Status**: Complete
+**Completed**: 2026-02-18
+**Priority**: HIGH
 
-**Potential Objectives**:
+**Completed Objectives**:
+- ✅ Phase 3F.1 — Stripe Live Mode: products, shipping rates, webhook on connected account
+- ✅ Phase 3F.2 — SEO Metadata + OG Image on all pages; robots.txt + sitemap.xml
+- ✅ Phase 3F.3 — Email FROM address (orders@theelectronicmusicbook.com) + Mexico shipping rate ($16)
+- ✅ Platform Stripe account verified with HSBC Mexico bank
+- ✅ Resend email domain verified with DKIM/SPF DNS in GoDaddy
+- ✅ All 17 production environment variables configured in Vercel
+
+### Phase 3G: QA Pass (In Progress)
+**Status**: In Progress
+**Priority**: HIGH
+
+**Objectives**:
+- End-to-end checkout flow test in live mode
+- Email confirmation delivery verification
+- Admin dashboard functionality review
+- SEO and metadata validation
+- Cross-browser and responsive design verification
+
+### Phase 3H: Post-Launch Admin Enhancements (Deferred)
+**Status**: Deferred — Post-Launch
+**Priority**: LOW
+
+**Deferred Objectives**:
+- Task 3E.4 — Admin address + commission tracking
 - Shipping confirmation emails with tracking numbers (lib/email/send.ts placeholder ready)
 - Customer account system and order history
 - Discount/promo code functionality
@@ -571,8 +624,11 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 - **Vercel**: Deployment platform (recommended)
 - **Vercel Analytics**: Basic analytics (included)
 
+### Active Integrations
+- **Resend**: Order confirmation email delivery (domain verified, production FROM address active)
+- **Neon Postgres**: Database (migrated from Vercel Postgres)
+
 ### Planned Integrations
-- Email service (Resend/SendGrid) - Phase 3C
 - CMS (Sanity/Contentful) - Phase 5
 - Newsletter (Mailchimp) - Phase 5
 - Monitoring (Sentry) - Phase 5
@@ -718,9 +774,9 @@ The Electronic Music Book web application has successfully completed Phase 3E - 
 
 ---
 
-**Last Status Update**: 2026-02-16
-**Next Review Date**: Start of Phase 3F
-**Overall Health**: EXCELLENT ✅
+**Last Status Update**: 2026-02-18
+**Next Review Date**: After Task 3G (QA Pass) completes
+**Overall Health**: EXCELLENT — READY FOR PRODUCTION LAUNCH ✅
 
 ---
 

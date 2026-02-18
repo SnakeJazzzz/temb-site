@@ -83,10 +83,12 @@ export async function sendOrderConfirmation(order: Order): Promise<SendEmailResu
     // Prepare email props
     const editionName = getEditionDisplayName(order.edition_id);
 
+    // Use environment variable for FROM address with fallback
+    const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+
     // Send the email
     const { data, error } = await resend.emails.send({
-      // TODO: Change to production domain email when ready
-      from: 'onboarding@resend.dev', // Development placeholder
+      from,
       to: order.customer_email,
       subject: 'Your TEMB Order Confirmation',
       react: OrderConfirmationEmail({
@@ -175,8 +177,11 @@ export async function sendTestEmail(recipientEmail: string): Promise<SendEmailRe
   }
 
   try {
+    // Use environment variable for FROM address with fallback
+    const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from,
       to: recipientEmail,
       subject: 'TEMB Email System Test',
       html: `

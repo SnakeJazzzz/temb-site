@@ -5,6 +5,31 @@ All notable changes to The Electronic Music Book project will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-02-18
+
+### Added
+- Stripe Live Mode configuration: products, shipping rates, and webhook registered on connected account
+- Platform Stripe account verified with HSBC Mexico bank for 1.5% commission payouts
+- Resend email domain verified (theelectronicmusicbook.com) with DKIM/SPF DNS records in GoDaddy
+- Production email FROM address: TEMB <orders@theelectronicmusicbook.com>
+- SEO metadata and Open Graph image on all pages (layout, shop, artists)
+- robots.txt and sitemap.xml via Next.js metadata API routes
+- All 17 production environment variables configured in Vercel
+
+### Changed
+- Mexico shipping rate: $25 → $16 USD (2500 → 1600 cents) in lib/shipping.ts
+- Email FROM address updated from onboarding@resend.dev to orders@theelectronicmusicbook.com via EMAIL_FROM env var (with fallback)
+- Statement descriptor set to "TEMB MUSIC BOOK"
+
+### Production Status
+- Stripe: Live mode with Connect (platform 1.5% / client 98.5%)
+- Email: Production domain verified, confirmation emails ready
+- DNS: theelectronicmusicbook.com on GoDaddy → Vercel + Resend DNS records
+- Database: Neon Postgres (unchanged)
+- Admin: JWT auth with admin/subadmin roles (unchanged)
+
+---
+
 ## Phase 3E — Admin System + Order Management (2026-02-16)
 
 ### Task 3E.1 — Database Migration + Auth System

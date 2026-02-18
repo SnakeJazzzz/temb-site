@@ -1,7 +1,18 @@
 // app/artists/page.tsx
 
+import type { Metadata } from 'next';
 import { getAllArtists } from '@/lib/artists';
 import Typography from '@/components/ui/Typography';
+
+export const metadata: Metadata = {
+  title: 'Artists — The Electronic Music Book',
+  description: 'Meet the artists featured in The Electronic Music Book. A collection celebrating electronic music culture.',
+  openGraph: {
+    title: 'Artists — The Electronic Music Book',
+    description: 'Meet the artists featured in The Electronic Music Book.',
+    url: 'https://theelectronicmusicbook.com/artists',
+  },
+};
 
 export default function ArtistsPage() {
   const artists = getAllArtists();

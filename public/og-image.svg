@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Black background -->
+  <rect width="1200" height="630" fill="#000000"/>
+
+  <!-- Main title -->
+  <text x="600" y="250" font-family="Inter, -apple-system, sans-serif" font-size="72" font-weight="300" fill="#F5F5F5" text-anchor="middle" letter-spacing="8">
+    TEMB
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="320" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="400" fill="#999999" text-anchor="middle" letter-spacing="4">
+    THE ELECTRONIC MUSIC BOOK
+  </text>
+
+  <!-- Divider line -->
+  <rect x="400" y="360" width="400" height="1" fill="#333333"/>
+
+  <!-- Description -->
+  <text x="600" y="420" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#999999" text-anchor="middle">
+    LIMITED EDITION · 250 PAGES · $699
+  </text>
+
+  <!-- Bottom tagline -->
+  <text x="600" y="480" font-family="Inter, -apple-system, sans-serif" font-size="16" fill="#666666" text-anchor="middle">
+    A luxury coffee table book celebrating electronic music culture
+  </text>
+</svg>

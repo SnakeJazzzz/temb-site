@@ -1,9 +1,20 @@
 // app/shop/page.tsx (Server Component - No "use client" directive)
 
+import type { Metadata } from 'next';
 import { getActiveEditions } from '@/lib/editions';
 import { isStripeConfigured } from '@/lib/stripe';
 import Typography from '@/components/ui/Typography';
 import EditionCard from './EditionCard'; // Import client component
+
+export const metadata: Metadata = {
+  title: 'Shop TEMB — Buy The Electronic Music Book',
+  description: 'Order your copy of The Electronic Music Book. Limited edition luxury coffee table book. $699. Ships worldwide.',
+  openGraph: {
+    title: 'Shop TEMB — Buy The Electronic Music Book',
+    description: 'Order your copy of The Electronic Music Book. Limited edition luxury coffee table book. $699. Ships worldwide.',
+    url: 'https://theelectronicmusicbook.com/shop',
+  },
+};
 
 export default function ShopPage() {
   const editions = getActiveEditions();
