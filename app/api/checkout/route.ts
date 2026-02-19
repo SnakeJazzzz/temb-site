@@ -33,7 +33,6 @@ import {
   getConnectedAccountId,
   isStripeConfigured,
   isStripeConnectConfigured,
-  calculateApplicationFee,
 } from '@/lib/stripe';
 import {
   getEditionById,
@@ -276,9 +275,17 @@ export async function POST(request: Request): Promise<NextResponse> {
       }
 
       // Add Connect-specific configuration if connected account is configured
+      let applicationFee = 0;
       if (useConnect && connectedAccountId) {
+        // Fetch the actual price from Stripe to calculate the fee dynamically.
+        // This ensures the fee is always 1.5% of whatever price is set in Stripe,
+        // regardless of any local edition.price value.
+        const stripePrice = await stripe.prices.retrieve(edition.stripePriceId as string);
+        const actualAmount = stripePrice.unit_amount || 0;
+        applicationFee = Math.floor(actualAmount * 1.5 / 100);
+
         sessionConfig.payment_intent_data = {
-          application_fee_amount: calculateApplicationFee(edition.price),
+          application_fee_amount: applicationFee,
           transfer_data: {
             destination: connectedAccountId,
           },
@@ -298,7 +305,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         editionId: edition.id,
         shippingRegion,
         paymentMode: useConnect ? 'connect' : 'direct',
-        applicationFee: useConnect ? calculateApplicationFee(edition.price) : 0,
+        applicationFee,
       });
 
       // Return the checkout URL for redirect
