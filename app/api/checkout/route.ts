@@ -217,7 +217,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     // 6. Determine Base URL for Success/Cancel
     // ============================================
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const baseUrl = process.env.BASE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
     // ============================================
     // 7. Create Stripe Checkout Session
