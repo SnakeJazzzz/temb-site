@@ -284,15 +284,19 @@ export async function POST(request: Request): Promise<NextResponse> {
         const actualAmount = stripePrice.unit_amount || 0;
         applicationFee = Math.floor(actualAmount * 1.5 / 100);
 
+        // Direct charge: connected account is merchant of record.
+        // Platform collects application_fee_amount; client pays Stripe fees
+        // and handles refunds/chargebacks.
         sessionConfig.payment_intent_data = {
           application_fee_amount: applicationFee,
-          transfer_data: {
-            destination: connectedAccountId,
-          },
+          on_behalf_of: connectedAccountId,
         };
       }
 
-      const session = await stripe.checkout.sessions.create(sessionConfig);
+      const session = await stripe.checkout.sessions.create(
+        sessionConfig,
+        useConnect && connectedAccountId ? { stripeAccount: connectedAccountId } : undefined
+      );
 
       // Verify session was created with a URL
       if (!session.url) {
