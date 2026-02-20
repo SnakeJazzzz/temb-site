@@ -293,10 +293,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         };
       }
 
-      const session = await stripe.checkout.sessions.create(
-        sessionConfig,
-        useConnect && connectedAccountId ? { stripeAccount: connectedAccountId } : undefined
-      );
+      const session = await stripe.checkout.sessions.create(sessionConfig);
 
       // Verify session was created with a URL
       if (!session.url) {
