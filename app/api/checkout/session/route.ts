@@ -1,7 +1,7 @@
 // app/api/checkout/session/route.ts
 
 import { NextResponse } from 'next/server';
-import { getStripeClient, isStripeConfigured } from '@/lib/stripe';
+import { getStripeClient, isStripeConfigured, getConnectedAccountId, isStripeConnectConfigured } from '@/lib/stripe';
 
 /**
  * Response structure for session details
@@ -62,10 +62,16 @@ export async function GET(request: Request): Promise<NextResponse> {
     }
 
     try {
-      // Retrieve the checkout session from Stripe
-      const session = await stripe.checkout.sessions.retrieve(sessionId, {
-        expand: ['customer_details', 'line_items'],
-      });
+      // When using direct charges (stripeAccount), the session lives on the connected account.
+      // Pass stripeAccount option so Stripe looks in the right place.
+      const connectedAccountId = isStripeConnectConfigured() ? getConnectedAccountId() : null;
+      const retrieveOptions = connectedAccountId ? { stripeAccount: connectedAccountId } : undefined;
+
+      const session = await stripe.checkout.sessions.retrieve(
+        sessionId,
+        { expand: ['customer_details', 'line_items'] },
+        retrieveOptions
+      );
 
       // Extract relevant information from the session
       const response: SessionDetailsResponse = {
