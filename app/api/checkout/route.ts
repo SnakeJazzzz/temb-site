@@ -265,31 +265,61 @@ export async function POST(request: Request): Promise<NextResponse> {
         },
       };
 
-      // Add shipping configuration only if shipping rate is configured
-      if (shippingRateId) {
-        sessionConfig.shipping_options = [
-          {
-            shipping_rate: shippingRateId,
-          }
-        ];
-      }
-
-      // Add Connect-specific configuration if connected account is configured
+      // Add Connect-specific configuration if connected account is configured.
+      // When using stripeAccount (direct charges), price IDs and shipping rate IDs
+      // don't exist on the connected account — so we use inline price_data and
+      // shipping_rate_data instead, fetching the actual amount from the platform account first.
       let applicationFee = 0;
       if (useConnect && connectedAccountId) {
-        // Fetch the actual price from Stripe to calculate the fee dynamically.
-        // This ensures the fee is always 1.5% of whatever price is set in Stripe,
-        // regardless of any local edition.price value.
+        // 1. Fetch actual price from platform account to get unit_amount
         const stripePrice = await stripe.prices.retrieve(edition.stripePriceId as string);
         const actualAmount = stripePrice.unit_amount || 0;
         applicationFee = Math.floor(actualAmount * 1.5 / 100);
 
-        // Direct charge: session created on the connected account.
-        // application_fee_amount inside payment_intent_data goes to platform automatically.
-        // NOTE: products/prices must exist on the connected account in Stripe.
+        // 2. Override line_items with inline price_data (no price ID needed on connected account)
+        sessionConfig.line_items = [
+          {
+            price_data: {
+              currency: 'mxn',
+              product_data: {
+                name: edition.name,
+                ...(edition.description ? { description: edition.description } : {}),
+              },
+              unit_amount: actualAmount,
+            },
+            quantity: 1,
+          }
+        ];
+
+        // 3. Override shipping_options with inline shipping_rate_data (free shipping)
+        sessionConfig.shipping_options = [
+          {
+            shipping_rate_data: {
+              display_name: shippingRegion === 'MX'
+                ? 'Envío gratis'
+                : 'Free shipping',
+              type: 'fixed_amount',
+              fixed_amount: {
+                amount: 0,
+                currency: 'mxn',
+              },
+            },
+          }
+        ];
+
+        // 4. Set payment_intent_data with application fee for platform
         (sessionConfig as any).payment_intent_data = {
           application_fee_amount: applicationFee,
         };
+      } else {
+        // Non-Connect mode: use price ID and shipping rate ID from env vars
+        if (shippingRateId) {
+          sessionConfig.shipping_options = [
+            {
+              shipping_rate: shippingRateId,
+            }
+          ];
+        }
       }
 
       const session = await stripe.checkout.sessions.create(
