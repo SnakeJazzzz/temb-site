@@ -68,7 +68,7 @@ export default function ShopPage() {
                   • Limited to 10,000 numbered copies worldwide
                 </Typography>
                 <Typography variant="caption" className="text-space-grey block">
-                  • Ships within 3-5 business days of order
+                  • Pre-sale edition — production in progress
                 </Typography>
                 <Typography variant="caption" className="text-space-grey block">
                   • Includes certificate of authenticity

@@ -191,11 +191,6 @@ export default function EditionCard({ edition, isCheckoutEnabled }: EditionCardP
                         >
                           {REGION_DISPLAY_NAMES[rate.region]}
                         </Typography>
-                        {rate.estimated_days && (
-                          <Typography variant="caption" className="text-space-grey block text-xs">
-                            {rate.estimated_days.min}-{rate.estimated_days.max} business days
-                          </Typography>
-                        )}
                       </div>
                     </div>
                     <Typography

@@ -27,9 +27,9 @@ export default function SuccessPage() {
             <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
               <Package className="w-5 h-5 text-blue-600" />
               <div>
-                <p className="font-medium">Order Processing</p>
+                <p className="font-medium">Pre-Sale Order</p>
                 <p className="text-sm text-muted-foreground">
-                  We&apos;ll prepare your order for shipping
+                  This is a pre-sale order. We&apos;ll notify you when ready to ship
                 </p>
               </div>
             </div>

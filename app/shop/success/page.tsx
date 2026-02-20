@@ -71,15 +71,11 @@ function SuccessContent() {
         {/* Order confirmation message */}
         <div className="space-y-4 pt-8">
           <Typography variant="body" className="text-space-grey">
-            We've received your order and will begin processing it shortly.
+            This is a pre-sale order. We'll notify you when your book is ready to ship.
           </Typography>
 
           <Typography variant="caption" className="text-space-grey/80 block">
-            You'll receive a shipping confirmation email when your book is on its way.
-          </Typography>
-
-          <Typography variant="caption" className="text-space-grey/80 block">
-            Ships within 3-5 business days
+            You'll receive updates on production progress and shipping when available.
           </Typography>
         </div>
 

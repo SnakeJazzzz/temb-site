@@ -46,16 +46,11 @@ function formatPrice(cents: number): string {
 
 /**
  * Get delivery estimate based on shipping region
+ * Note: Currently not used for pre-sale orders
  */
 function getDeliveryEstimate(region: 'MX' | 'INTL'): string {
-  switch (region) {
-    case 'MX':
-      return 'Estimated delivery: 2-3 weeks';
-    case 'INTL':
-      return 'Estimated delivery: 4-6 weeks';
-    default:
-      return 'Estimated delivery: 4-6 weeks';
-  }
+  // Pre-sale - no delivery estimates
+  return '';
 }
 
 /**
@@ -91,7 +86,7 @@ export function OrderConfirmationEmail({
             <Text style={greeting}>Dear {customerName},</Text>
 
             <Text style={paragraph}>
-              Your order has been confirmed and we are preparing your edition for shipment.
+              This is a pre-sale order. We'll notify you when your book is ready to ship.
             </Text>
           </Section>
 
@@ -116,10 +111,6 @@ export function OrderConfirmationEmail({
               </Text>
             </Section>
 
-            <Section style={detailRow}>
-              <Text style={detailLabel}>Delivery</Text>
-              <Text style={detailValue}>{deliveryEstimate}</Text>
-            </Section>
           </Section>
 
           <Hr style={divider} />
@@ -127,9 +118,8 @@ export function OrderConfirmationEmail({
           {/* Additional Information */}
           <Section style={contentSection}>
             <Text style={paragraph}>
-              Each TEMB edition is carefully crafted and quality checked before shipping.
-              You will receive a shipping confirmation with tracking information once your
-              order has been dispatched.
+              Each TEMB edition is carefully crafted and quality checked.
+              As this is a pre-sale order, we'll keep you updated on production progress.
             </Text>
           </Section>
 
